@@ -1,0 +1,74 @@
+{
+  "name": "@gopherex/synclog",
+  "version": "0.0.0",
+  "description": "Transport-free frontend SDK and generated protobuf types for synclog.",
+  "type": "module",
+  "license": "MIT",
+  "author": "yaroher <stolbunov.yaroslav@gmail.com>",
+  "homepage": "https://github.com/gopherex/synclog/tree/master/ts/synclog#readme",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/gopherex/synclog.git",
+    "directory": "ts/synclog"
+  },
+  "bugs": {
+    "url": "https://github.com/gopherex/synclog/issues"
+  },
+  "keywords": [
+    "sync",
+    "protobuf",
+    "event-log",
+    "offline",
+    "frontend",
+    "transport-free"
+  ],
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "files": [
+    "dist",
+    "src"
+  ],
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./proto/synclog/v1/gateway": {
+      "types": "./dist/proto/synclog/v1/gateway_pb.d.ts",
+      "import": "./dist/proto/synclog/v1/gateway_pb.js"
+    },
+    "./proto/synclog/v1/service": {
+      "types": "./dist/proto/synclog/v1/service_pb.d.ts",
+      "import": "./dist/proto/synclog/v1/service_pb.js"
+    },
+    "./proto/synclog/v1/snapshot": {
+      "types": "./dist/proto/synclog/v1/snapshot_pb.d.ts",
+      "import": "./dist/proto/synclog/v1/snapshot_pb.js"
+    },
+    "./proto/synclog/v1/event": {
+      "types": "./dist/proto/synclog/v1/event_pb.d.ts",
+      "import": "./dist/proto/synclog/v1/event_pb.js"
+    },
+    "./proto/synclog/v1/admin": {
+      "types": "./dist/proto/synclog/v1/admin_pb.d.ts",
+      "import": "./dist/proto/synclog/v1/admin_pb.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "prepack": "npm run build",
+    "test": "tsx test/memory-sync.test.ts",
+    "typecheck": "tsc -p tsconfig.test.json"
+  },
+  "dependencies": {
+    "@bufbuild/protobuf": "^2.11.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.0.0",
+    "tsx": "^4.20.0",
+    "typescript": "^5.8.0"
+  }
+}

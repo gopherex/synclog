@@ -1,0 +1,13 @@
+{
+  "name": "synclog-workspace",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "ts/synclog"
+  ],
+  "scripts": {
+    "build": "npm run --workspaces build",
+    "test": "npm run --workspaces test",
+    "typecheck": "npm run --workspaces typecheck"
+  }
+}
