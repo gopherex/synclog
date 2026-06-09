@@ -1,0 +1,55 @@
+syntax = "proto3";
+
+package synclog.v1;
+
+option go_package = "github.com/gopherex/synclog/pkg/proto/synclog/v1;synclogv1";
+
+import "validate/validate.proto";
+
+// Stream is an ordered, append-only sequence of events. A subscriber that maps
+// many logical sources onto streams decides the granularity (e.g. one shared
+// stream for many small sources, a dedicated stream for a high-volume one).
+message Stream {
+  string id = 1 [(validate.rules).string.min_len = 1];
+}
+
+// Cursor is a monotonic position within a stream. Equivalent to Telegram's
+// per-box `pts`; in the server-managed mode the service stores one cursor per
+// subscriber and stream.
+message Cursor {
+  string stream_id = 1 [(validate.rules).string.min_len = 1];
+  uint64 seq = 2;
+}
+
+// SubscriberCursor is the stored server-side cursor for one subscriber/stream
+// pair. It is used by admin and diagnostics surfaces.
+message SubscriberCursor {
+  string subscriber_id = 1 [(validate.rules).string.min_len = 1];
+  Cursor cursor = 2 [(validate.rules).message.required = true];
+  string metadata = 3;
+  int64 updated_at_unix_ms = 4;
+}
+
+// Event is one entry in a stream. `payload` is opaque to synclog: the producer
+// serializes a domain object into it; synclog never parses it. The type/version
+// fields are routing hints for SDK codecs and consumers, not schema knowledge.
+message Event {
+  string stream_id = 1 [(validate.rules).string.min_len = 1];
+  uint64 seq = 2 [(validate.rules).uint64.gt = 0];
+  bytes payload = 3;
+  string payload_type = 4;
+  uint32 payload_version = 5;
+  string idempotency_key = 6;
+  int64 created_at_unix_ms = 7;
+}
+
+// EventBatch is a contiguous, ordered run of events. `seq_start`..`seq` lets a
+// consumer detect gaps and de-duplicate (Telegram `updates`/`updatesCombined`).
+message EventBatch {
+  repeated Event events = 1;
+  uint64 seq_start = 2;
+  uint64 seq = 3;
+  // True when the batch reaches the current head of the stream; false means the
+  // consumer should CatchUp again (Telegram differenceSlice semantics).
+  bool final = 4;
+}

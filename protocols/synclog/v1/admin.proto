@@ -1,0 +1,97 @@
+syntax = "proto3";
+
+package synclog.v1;
+
+import "synclog/v1/event.proto";
+import "validate/validate.proto";
+
+option go_package = "github.com/gopherex/synclog/pkg/proto/synclog/v1;synclogv1";
+
+enum JobState {
+  JOB_STATE_NONE = 0;
+  JOB_STATE_PENDING = 1;
+  JOB_STATE_RUNNING = 2;
+  JOB_STATE_DONE = 3;
+  JOB_STATE_FAILED = 4;
+}
+
+message Job {
+  string job_id = 1;
+  JobState state = 2;
+}
+
+message StreamRetention {
+  string stream_id = 1 [(validate.rules).string.min_len = 1];
+  int32 ttl_days = 2;       // 0 = keep forever
+  int64 max_events = 3;     // 0 = unlimited
+}
+
+message StreamStats {
+  string stream_id = 1;
+  int64 event_count = 2;
+  uint64 head_seq = 3;
+  int64 size_bytes = 4;
+  int64 subscriber_count = 5;
+}
+
+// SyncLogAdminService is the ops plane of the generic event log. Like the rest of
+// synclog it is domain-agnostic: it speaks only streams, cursors, events, and seq.
+service SyncLogAdminService {
+  // Stream lifecycle
+  rpc CreateStream(CreateStreamRequest) returns (CreateStreamResponse);
+  rpc DeleteStream(DeleteStreamRequest) returns (DeleteStreamResponse);
+  rpc ListStreams(ListStreamsRequest) returns (ListStreamsResponse);
+
+  // Compaction / retention
+  rpc TruncateStream(TruncateStreamRequest) returns (TruncateStreamResponse);
+  rpc CompactStream(CompactStreamRequest) returns (CompactStreamResponse);
+  rpc SetStreamRetention(SetStreamRetentionRequest) returns (SetStreamRetentionResponse);
+
+  // Cursor admin. Normal consumers advance via SyncLogService.Ack; these RPCs
+  // are for ops, migrations, and snapshot-based recovery.
+  rpc ResetCursor(ResetCursorRequest) returns (ResetCursorResponse);
+  rpc ListCursors(ListCursorsRequest) returns (ListCursorsResponse);
+
+  // Stats
+  rpc GetStreamStats(GetStreamStatsRequest) returns (GetStreamStatsResponse);
+}
+
+message CreateStreamRequest { string stream_id = 1 [(validate.rules).string.min_len = 1]; }
+message CreateStreamResponse { Stream stream = 1; }
+
+message DeleteStreamRequest { string stream_id = 1 [(validate.rules).string.min_len = 1]; }
+message DeleteStreamResponse { bool deleted = 1; }
+
+message ListStreamsRequest {
+  string prefix = 1;
+  uint32 limit = 2 [(validate.rules).uint32.lte = 1000];
+  string page_token = 3;
+}
+message ListStreamsResponse { repeated Stream streams = 1; string next_page_token = 2; }
+
+message TruncateStreamRequest {
+  string stream_id = 1 [(validate.rules).string.min_len = 1];
+  uint64 before_seq = 2;   // remove events with seq < before_seq
+}
+message TruncateStreamResponse { int64 removed = 1; }
+
+// CompactStream removes events below the minimum cursor across all subscribers.
+message CompactStreamRequest { string stream_id = 1 [(validate.rules).string.min_len = 1]; }
+message CompactStreamResponse { Job job = 1; }
+
+message SetStreamRetentionRequest { StreamRetention retention = 1 [(validate.rules).message.required = true]; }
+message SetStreamRetentionResponse { StreamRetention retention = 1; }
+
+message ResetCursorRequest {
+  string subscriber_id = 1 [(validate.rules).string.min_len = 1];
+  string stream_id = 2 [(validate.rules).string.min_len = 1];
+  uint64 seq = 3;
+  string metadata = 4;
+}
+message ResetCursorResponse { SubscriberCursor cursor = 1; }
+
+message ListCursorsRequest { string stream_id = 1 [(validate.rules).string.min_len = 1]; }
+message ListCursorsResponse { repeated SubscriberCursor cursors = 1; }
+
+message GetStreamStatsRequest { string stream_id = 1 [(validate.rules).string.min_len = 1]; }
+message GetStreamStatsResponse { StreamStats stats = 1; }

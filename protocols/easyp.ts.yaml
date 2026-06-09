@@ -1,0 +1,28 @@
+lint:
+  use:
+    - DEFAULT
+  enum_zero_value_suffix: _NONE
+  service_suffix: Service
+  ignore: []
+  except: []
+  allow_comment_ignores: false
+  ignore_only: {}
+deps:
+  - github.com/bufbuild/protoc-gen-validate@v1.3.3
+generate:
+  inputs:
+    - directory: synclog
+    - git_repo:
+        url: github.com/bufbuild/protoc-gen-validate
+        sub_directory: validate
+  plugins:
+    - name: es
+      out: ../ts/synclog/src/proto
+      opts:
+        target: ts
+        import_extension: js
+        json_types: true
+        valid_types: legacy_required+protovalidate_required
+breaking:
+  ignore: []
+  against_git_ref: master

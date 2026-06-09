@@ -1,0 +1,113 @@
+syntax = "proto3";
+
+package synclog.v1;
+
+import "validate/validate.proto";
+
+option go_package = "github.com/gopherex/synclog/pkg/proto/synclog/v1;synclogv1";
+
+// SnapshotCompression describes how the opaque snapshot payload is encoded.
+enum SnapshotCompression {
+  SNAPSHOT_COMPRESSION_NONE = 0;
+  SNAPSHOT_COMPRESSION_GZIP = 1;
+  SNAPSHOT_COMPRESSION_ZSTD = 2;
+}
+
+// SnapshotRef is the metadata for one opaque state image. `seq` means the
+// snapshot reflects all events in the stream up to and including that seq.
+message SnapshotRef {
+  string stream_id = 1 [(validate.rules).string.min_len = 1];
+  uint64 seq = 2;
+  string payload_type = 3 [(validate.rules).string.min_len = 1];
+  uint32 payload_version = 4;
+  SnapshotCompression compression = 5 [(validate.rules).enum = {defined_only: true}];
+  string checksum = 6;
+  int64 size_bytes = 7;
+  int64 created_at_unix_ms = 8;
+  string producer_id = 9;
+}
+
+// Snapshot is an opaque state image plus its stream position metadata. Synclog
+// stores and serves the bytes but never builds, parses, or applies them.
+message Snapshot {
+  SnapshotRef ref = 1 [(validate.rules).message.required = true];
+  bytes payload = 2;
+}
+
+// SyncLogSnapshotService stores opaque snapshot blobs for stream recovery. It is
+// generic: domain services build snapshots externally and publish them here.
+service SyncLogSnapshotService {
+  // PutSnapshot stores a snapshot for a stream position. Repeating the same
+  // stream/type/version/seq/checksum may be treated as idempotent.
+  rpc PutSnapshot(PutSnapshotRequest) returns (PutSnapshotResponse);
+  // GetLatestSnapshot returns the newest compatible snapshot for a stream/type.
+  rpc GetLatestSnapshot(GetLatestSnapshotRequest) returns (GetLatestSnapshotResponse);
+  // GetSnapshot returns an exact snapshot by stream/type/version/seq.
+  rpc GetSnapshot(GetSnapshotRequest) returns (GetSnapshotResponse);
+  // ListSnapshots returns snapshot metadata without payload bytes.
+  rpc ListSnapshots(ListSnapshotsRequest) returns (ListSnapshotsResponse);
+  // DeleteSnapshot removes one snapshot blob and its metadata.
+  rpc DeleteSnapshot(DeleteSnapshotRequest) returns (DeleteSnapshotResponse);
+}
+
+message PutSnapshotRequest {
+  string stream_id = 1 [(validate.rules).string.min_len = 1];
+  uint64 seq = 2;
+  bytes payload = 3;
+  string payload_type = 4 [(validate.rules).string.min_len = 1];
+  uint32 payload_version = 5;
+  SnapshotCompression compression = 6 [(validate.rules).enum = {defined_only: true}];
+  string checksum = 7;
+  string producer_id = 8;
+}
+
+message PutSnapshotResponse {
+  SnapshotRef snapshot = 1;
+  bool deduplicated = 2;
+}
+
+message GetLatestSnapshotRequest {
+  string stream_id = 1 [(validate.rules).string.min_len = 1];
+  string payload_type = 2 [(validate.rules).string.min_len = 1];
+  // 0 means "no upper bound"; otherwise return the newest snapshot whose
+  // payload_version is <= max_payload_version.
+  uint32 max_payload_version = 3;
+}
+
+message GetLatestSnapshotResponse {
+  Snapshot snapshot = 1;
+}
+
+message GetSnapshotRequest {
+  string stream_id = 1 [(validate.rules).string.min_len = 1];
+  uint64 seq = 2;
+  string payload_type = 3 [(validate.rules).string.min_len = 1];
+  uint32 payload_version = 4;
+}
+
+message GetSnapshotResponse {
+  Snapshot snapshot = 1;
+}
+
+message ListSnapshotsRequest {
+  string stream_id = 1 [(validate.rules).string.min_len = 1];
+  string payload_type = 2;
+  uint32 limit = 3 [(validate.rules).uint32.lte = 1000];
+  string page_token = 4;
+}
+
+message ListSnapshotsResponse {
+  repeated SnapshotRef snapshots = 1;
+  string next_page_token = 2;
+}
+
+message DeleteSnapshotRequest {
+  string stream_id = 1 [(validate.rules).string.min_len = 1];
+  uint64 seq = 2;
+  string payload_type = 3 [(validate.rules).string.min_len = 1];
+  uint32 payload_version = 4;
+}
+
+message DeleteSnapshotResponse {
+  bool deleted = 1;
+}

@@ -1,0 +1,121 @@
+syntax = "proto3";
+
+package synclog.v1;
+
+import "synclog/v1/event.proto";
+import "validate/validate.proto";
+
+option go_package = "github.com/gopherex/synclog/pkg/proto/synclog/v1;synclogv1";
+
+// SyncLogService is a generic, domain-agnostic event log. It has no notion of
+// the meaning of any payload. Cursors are server-managed per subscriber/stream:
+// consumers apply delivered batches and then Ack the last contiguous seq.
+service SyncLogService {
+  // Append adds one event to a stream and returns its assigned seq.
+  rpc Append(AppendRequest) returns (AppendResponse);
+  // GetHead returns the current stream head.
+  rpc GetHead(GetHeadRequest) returns (GetHeadResponse);
+  // GetCursor returns the subscriber's committed position (Telegram getState).
+  rpc GetCursor(GetCursorRequest) returns (GetCursorResponse);
+  // CatchUp returns events after the subscriber's committed cursor.
+  rpc CatchUp(CatchUpRequest) returns (CatchUpResponse);
+  // Subscribe streams new batches live after the subscriber's committed cursor.
+  rpc Subscribe(SubscribeRequest) returns (stream SubscribeResponse);
+  // Ack advances the subscriber's cursor after the consumer applies all events
+  // up to `seq` contiguously. Ack is monotonic and never moves a cursor back.
+  rpc Ack(AckRequest) returns (AckResponse);
+}
+
+message AppendRequest {
+  string stream_id = 1 [(validate.rules).string.min_len = 1];
+  bytes payload = 2;
+  string payload_type = 3;
+  uint32 payload_version = 4;
+  string idempotency_key = 5;
+}
+
+message AppendResponse {
+  uint64 seq = 1;
+  bool deduplicated = 2;
+}
+
+message GetHeadRequest {
+  string stream_id = 1 [(validate.rules).string.min_len = 1];
+}
+
+message GetHeadResponse {
+  Cursor head = 1;
+  // First retained seq in the stream. If a subscriber cursor is below this
+  // value, CatchUp returns CATCH_UP_STATUS_TOO_LONG.
+  uint64 retained_seq_start = 2;
+}
+
+message GetCursorRequest {
+  string subscriber_id = 1 [(validate.rules).string.min_len = 1];
+  string stream_id = 2 [(validate.rules).string.min_len = 1];
+}
+
+message GetCursorResponse {
+  Cursor cursor = 1;
+  Cursor head = 2;
+}
+
+enum CatchUpStatus {
+  CATCH_UP_STATUS_NONE = 0;
+  CATCH_UP_STATUS_OK = 1;
+  // The committed cursor is behind the retained log, or the requested total
+  // limit would be exceeded. The consumer must refresh from a higher-level
+  // source of truth and then Ack the snapshot seq.
+  CATCH_UP_STATUS_TOO_LONG = 2;
+}
+
+message CatchUpRequest {
+  string subscriber_id = 1 [(validate.rules).string.min_len = 1];
+  string stream_id = 2 [(validate.rules).string.min_len = 1];
+  // Max events to return; server may return fewer and set final=false.
+  uint32 limit = 3 [(validate.rules).uint32.lte = 1000];
+  // If set and committed cursor + total_limit < head, the server returns
+  // CATCH_UP_STATUS_TOO_LONG instead of a large catch-up.
+  uint32 total_limit = 4;
+}
+
+message CatchUpResponse {
+  CatchUpStatus status = 1;
+  EventBatch batch = 2;
+  Cursor cursor = 3;
+  Cursor head = 4;
+  uint64 retained_seq_start = 5;
+}
+
+message SubscribeRequest {
+  string subscriber_id = 1 [(validate.rules).string.min_len = 1];
+  string stream_id = 2 [(validate.rules).string.min_len = 1];
+  // Max events per streamed batch.
+  uint32 batch_limit = 3 [(validate.rules).uint32.lte = 1000];
+  // Server-side flow-control hint: pause delivery when this many events are
+  // delivered but not yet Acked.
+  uint32 max_in_flight = 4 [(validate.rules).uint32.lte = 10000];
+}
+
+message SubscribeResponse {
+  CatchUpStatus status = 1;
+  EventBatch batch = 2;
+  Cursor cursor = 3;
+  Cursor head = 4;
+  uint64 retained_seq_start = 5;
+  // True for an idle keepalive frame. Heartbeat responses carry no batch.
+  bool heartbeat = 6;
+  int64 server_time_unix_ms = 7;
+}
+
+message AckRequest {
+  string subscriber_id = 1 [(validate.rules).string.min_len = 1];
+  string stream_id = 2 [(validate.rules).string.min_len = 1];
+  uint64 seq = 3;
+  string metadata = 4;
+}
+
+message AckResponse {
+  Cursor cursor = 1;
+  Cursor head = 2;
+}
