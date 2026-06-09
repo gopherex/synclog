@@ -1,6 +1,6 @@
 {
   "name": "@gopherex/synclog",
-  "version": "0.0.0",
+  "version": "1.0.0",
   "description": "Transport-free frontend SDK and generated protobuf types for synclog.",
   "type": "module",
   "license": "MIT",
