@@ -3,7 +3,6 @@ syntax = "proto3";
 package synclog.v1;
 
 import "synclog/v1/event.proto";
-import "validate/validate.proto";
 
 option go_package = "github.com/gopherex/synclog/pkg/proto/synclog/v1;synclogv1";
 
@@ -27,7 +26,7 @@ service SyncLogService {
 }
 
 message AppendRequest {
-  string stream_id = 1 [(validate.rules).string.min_len = 1];
+  string stream_id = 1;
   bytes payload = 2;
   string payload_type = 3;
   uint32 payload_version = 4;
@@ -40,7 +39,7 @@ message AppendResponse {
 }
 
 message GetHeadRequest {
-  string stream_id = 1 [(validate.rules).string.min_len = 1];
+  string stream_id = 1;
 }
 
 message GetHeadResponse {
@@ -51,8 +50,8 @@ message GetHeadResponse {
 }
 
 message GetCursorRequest {
-  string subscriber_id = 1 [(validate.rules).string.min_len = 1];
-  string stream_id = 2 [(validate.rules).string.min_len = 1];
+  string subscriber_id = 1;
+  string stream_id = 2;
 }
 
 message GetCursorResponse {
@@ -70,10 +69,10 @@ enum CatchUpStatus {
 }
 
 message CatchUpRequest {
-  string subscriber_id = 1 [(validate.rules).string.min_len = 1];
-  string stream_id = 2 [(validate.rules).string.min_len = 1];
+  string subscriber_id = 1;
+  string stream_id = 2;
   // Max events to return; server may return fewer and set final=false.
-  uint32 limit = 3 [(validate.rules).uint32.lte = 1000];
+  uint32 limit = 3;
   // If set and committed cursor + total_limit < head, the server returns
   // CATCH_UP_STATUS_TOO_LONG instead of a large catch-up.
   uint32 total_limit = 4;
@@ -88,13 +87,13 @@ message CatchUpResponse {
 }
 
 message SubscribeRequest {
-  string subscriber_id = 1 [(validate.rules).string.min_len = 1];
-  string stream_id = 2 [(validate.rules).string.min_len = 1];
+  string subscriber_id = 1;
+  string stream_id = 2;
   // Max events per streamed batch.
-  uint32 batch_limit = 3 [(validate.rules).uint32.lte = 1000];
+  uint32 batch_limit = 3;
   // Server-side flow-control hint: pause delivery when this many events are
   // delivered but not yet Acked.
-  uint32 max_in_flight = 4 [(validate.rules).uint32.lte = 10000];
+  uint32 max_in_flight = 4;
 }
 
 message SubscribeResponse {
@@ -109,8 +108,8 @@ message SubscribeResponse {
 }
 
 message AckRequest {
-  string subscriber_id = 1 [(validate.rules).string.min_len = 1];
-  string stream_id = 2 [(validate.rules).string.min_len = 1];
+  string subscriber_id = 1;
+  string stream_id = 2;
   uint64 seq = 3;
   string metadata = 4;
 }

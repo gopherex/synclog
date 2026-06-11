@@ -7,7 +7,6 @@
 package synclogv1
 
 import (
-	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -1119,12 +1118,12 @@ var File_synclog_v1_admin_proto protoreflect.FileDescriptor
 const file_synclog_v1_admin_proto_rawDesc = "" +
 	"\n" +
 	"\x16synclog/v1/admin.proto\x12\n" +
-	"synclog.v1\x1a\x16synclog/v1/event.proto\x1a\x17validate/validate.proto\"H\n" +
+	"synclog.v1\x1a\x16synclog/v1/event.proto\"H\n" +
 	"\x03Job\x12\x15\n" +
 	"\x06job_id\x18\x01 \x01(\tR\x05jobId\x12*\n" +
-	"\x05state\x18\x02 \x01(\x0e2\x14.synclog.v1.JobStateR\x05state\"q\n" +
-	"\x0fStreamRetention\x12$\n" +
-	"\tstream_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bstreamId\x12\x19\n" +
+	"\x05state\x18\x02 \x01(\x0e2\x14.synclog.v1.JobStateR\x05state\"h\n" +
+	"\x0fStreamRetention\x12\x1b\n" +
+	"\tstream_id\x18\x01 \x01(\tR\bstreamId\x12\x19\n" +
 	"\bttl_days\x18\x02 \x01(\x05R\attlDays\x12\x1d\n" +
 	"\n" +
 	"max_events\x18\x03 \x01(\x03R\tmaxEvents\"\xb0\x01\n" +
@@ -1135,50 +1134,50 @@ const file_synclog_v1_admin_proto_rawDesc = "" +
 	"\bhead_seq\x18\x03 \x01(\x04R\aheadSeq\x12\x1d\n" +
 	"\n" +
 	"size_bytes\x18\x04 \x01(\x03R\tsizeBytes\x12)\n" +
-	"\x10subscriber_count\x18\x05 \x01(\x03R\x0fsubscriberCount\";\n" +
-	"\x13CreateStreamRequest\x12$\n" +
-	"\tstream_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bstreamId\"B\n" +
+	"\x10subscriber_count\x18\x05 \x01(\x03R\x0fsubscriberCount\"2\n" +
+	"\x13CreateStreamRequest\x12\x1b\n" +
+	"\tstream_id\x18\x01 \x01(\tR\bstreamId\"B\n" +
 	"\x14CreateStreamResponse\x12*\n" +
-	"\x06stream\x18\x01 \x01(\v2\x12.synclog.v1.StreamR\x06stream\";\n" +
-	"\x13DeleteStreamRequest\x12$\n" +
-	"\tstream_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bstreamId\"0\n" +
+	"\x06stream\x18\x01 \x01(\v2\x12.synclog.v1.StreamR\x06stream\"2\n" +
+	"\x13DeleteStreamRequest\x12\x1b\n" +
+	"\tstream_id\x18\x01 \x01(\tR\bstreamId\"0\n" +
 	"\x14DeleteStreamResponse\x12\x18\n" +
-	"\adeleted\x18\x01 \x01(\bR\adeleted\"k\n" +
+	"\adeleted\x18\x01 \x01(\bR\adeleted\"a\n" +
 	"\x12ListStreamsRequest\x12\x16\n" +
-	"\x06prefix\x18\x01 \x01(\tR\x06prefix\x12\x1e\n" +
-	"\x05limit\x18\x02 \x01(\rB\b\xfaB\x05*\x03\x18\xe8\aR\x05limit\x12\x1d\n" +
+	"\x06prefix\x18\x01 \x01(\tR\x06prefix\x12\x14\n" +
+	"\x05limit\x18\x02 \x01(\rR\x05limit\x12\x1d\n" +
 	"\n" +
 	"page_token\x18\x03 \x01(\tR\tpageToken\"k\n" +
 	"\x13ListStreamsResponse\x12,\n" +
 	"\astreams\x18\x01 \x03(\v2\x12.synclog.v1.StreamR\astreams\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"\\\n" +
-	"\x15TruncateStreamRequest\x12$\n" +
-	"\tstream_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bstreamId\x12\x1d\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"S\n" +
+	"\x15TruncateStreamRequest\x12\x1b\n" +
+	"\tstream_id\x18\x01 \x01(\tR\bstreamId\x12\x1d\n" +
 	"\n" +
 	"before_seq\x18\x02 \x01(\x04R\tbeforeSeq\"2\n" +
 	"\x16TruncateStreamResponse\x12\x18\n" +
-	"\aremoved\x18\x01 \x01(\x03R\aremoved\"<\n" +
-	"\x14CompactStreamRequest\x12$\n" +
-	"\tstream_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bstreamId\":\n" +
+	"\aremoved\x18\x01 \x01(\x03R\aremoved\"3\n" +
+	"\x14CompactStreamRequest\x12\x1b\n" +
+	"\tstream_id\x18\x01 \x01(\tR\bstreamId\":\n" +
 	"\x15CompactStreamResponse\x12!\n" +
-	"\x03job\x18\x01 \x01(\v2\x0f.synclog.v1.JobR\x03job\"`\n" +
-	"\x19SetStreamRetentionRequest\x12C\n" +
-	"\tretention\x18\x01 \x01(\v2\x1b.synclog.v1.StreamRetentionB\b\xfaB\x05\x8a\x01\x02\x10\x01R\tretention\"W\n" +
+	"\x03job\x18\x01 \x01(\v2\x0f.synclog.v1.JobR\x03job\"V\n" +
+	"\x19SetStreamRetentionRequest\x129\n" +
+	"\tretention\x18\x01 \x01(\v2\x1b.synclog.v1.StreamRetentionR\tretention\"W\n" +
 	"\x1aSetStreamRetentionResponse\x129\n" +
-	"\tretention\x18\x01 \x01(\v2\x1b.synclog.v1.StreamRetentionR\tretention\"\x96\x01\n" +
-	"\x12ResetCursorRequest\x12,\n" +
-	"\rsubscriber_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\fsubscriberId\x12$\n" +
-	"\tstream_id\x18\x02 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bstreamId\x12\x10\n" +
+	"\tretention\x18\x01 \x01(\v2\x1b.synclog.v1.StreamRetentionR\tretention\"\x84\x01\n" +
+	"\x12ResetCursorRequest\x12#\n" +
+	"\rsubscriber_id\x18\x01 \x01(\tR\fsubscriberId\x12\x1b\n" +
+	"\tstream_id\x18\x02 \x01(\tR\bstreamId\x12\x10\n" +
 	"\x03seq\x18\x03 \x01(\x04R\x03seq\x12\x1a\n" +
 	"\bmetadata\x18\x04 \x01(\tR\bmetadata\"K\n" +
 	"\x13ResetCursorResponse\x124\n" +
-	"\x06cursor\x18\x01 \x01(\v2\x1c.synclog.v1.SubscriberCursorR\x06cursor\":\n" +
-	"\x12ListCursorsRequest\x12$\n" +
-	"\tstream_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bstreamId\"M\n" +
+	"\x06cursor\x18\x01 \x01(\v2\x1c.synclog.v1.SubscriberCursorR\x06cursor\"1\n" +
+	"\x12ListCursorsRequest\x12\x1b\n" +
+	"\tstream_id\x18\x01 \x01(\tR\bstreamId\"M\n" +
 	"\x13ListCursorsResponse\x126\n" +
-	"\acursors\x18\x01 \x03(\v2\x1c.synclog.v1.SubscriberCursorR\acursors\"=\n" +
-	"\x15GetStreamStatsRequest\x12$\n" +
-	"\tstream_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bstreamId\"G\n" +
+	"\acursors\x18\x01 \x03(\v2\x1c.synclog.v1.SubscriberCursorR\acursors\"4\n" +
+	"\x15GetStreamStatsRequest\x12\x1b\n" +
+	"\tstream_id\x18\x01 \x01(\tR\bstreamId\"G\n" +
 	"\x16GetStreamStatsResponse\x12-\n" +
 	"\x05stats\x18\x01 \x01(\v2\x17.synclog.v1.StreamStatsR\x05stats*v\n" +
 	"\bJobState\x12\x12\n" +

@@ -4,7 +4,6 @@ package synclog.v1;
 
 import "synclog/v1/service.proto";
 import "synclog/v1/snapshot.proto";
-import "validate/validate.proto";
 
 option go_package = "github.com/gopherex/synclog/pkg/proto/synclog/v1;synclogv1";
 
@@ -12,8 +11,8 @@ option go_package = "github.com/gopherex/synclog/pkg/proto/synclog/v1;synclogv1"
 // product embedding the gateway resolves it to one or more internal streams and
 // allowed payload types. Clients do not need to know stream ids or sharding.
 message SyncTarget {
-  string namespace = 1 [(validate.rules).string.min_len = 1];
-  string id = 2 [(validate.rules).string.min_len = 1];
+  string namespace = 1;
+  string id = 2;
   string view = 3;
 }
 
@@ -30,7 +29,7 @@ message TargetBindingState {
 // TargetState exposes the committed cursor and current head for one target after
 // product-side resolution and authorization.
 message TargetState {
-  SyncTarget target = 1 [(validate.rules).message.required = true];
+  SyncTarget target = 1;
   // Legacy aggregate fields for single-binding targets. For multi-binding
   // targets, inspect `bindings`.
   uint64 cursor_seq = 2;
@@ -42,8 +41,8 @@ message TargetState {
 // GatewayEvent is a public event envelope. The payload is still opaque to the
 // gateway core; product hooks decide which target/payload types may be exposed.
 message GatewayEvent {
-  SyncTarget target = 1 [(validate.rules).message.required = true];
-  uint64 seq = 2 [(validate.rules).uint64.gt = 0];
+  SyncTarget target = 1;
+  uint64 seq = 2;
   bytes payload = 3;
   string payload_type = 4;
   uint32 payload_version = 5;
@@ -52,7 +51,7 @@ message GatewayEvent {
 }
 
 message GatewayBatch {
-  SyncTarget target = 1 [(validate.rules).message.required = true];
+  SyncTarget target = 1;
   repeated GatewayEvent events = 2;
   uint64 seq_start = 3;
   uint64 seq = 4;
@@ -61,12 +60,12 @@ message GatewayBatch {
 }
 
 message GatewaySnapshot {
-  SyncTarget target = 1 [(validate.rules).message.required = true];
+  SyncTarget target = 1;
   uint64 seq = 2;
   bytes payload = 3;
   string payload_type = 4;
   uint32 payload_version = 5;
-  SnapshotCompression compression = 6 [(validate.rules).enum = {defined_only: true}];
+  SnapshotCompression compression = 6;
   string checksum = 7;
   string binding_key = 8;
 }
@@ -88,8 +87,8 @@ service SyncGatewayService {
 }
 
 message OpenRequest {
-  string subscriber_id = 1 [(validate.rules).string.min_len = 1];
-  repeated SyncTarget targets = 2 [(validate.rules).repeated.min_items = 1];
+  string subscriber_id = 1;
+  repeated SyncTarget targets = 2;
 }
 
 message OpenResponse {
@@ -97,14 +96,14 @@ message OpenResponse {
 }
 
 message GatewayCatchUpRequest {
-  string subscriber_id = 1 [(validate.rules).string.min_len = 1];
-  repeated SyncTarget targets = 2 [(validate.rules).repeated.min_items = 1];
-  uint32 limit_per_target = 3 [(validate.rules).uint32.lte = 1000];
+  string subscriber_id = 1;
+  repeated SyncTarget targets = 2;
+  uint32 limit_per_target = 3;
   uint32 total_limit_per_target = 4;
 }
 
 message GatewayCatchUpResult {
-  SyncTarget target = 1 [(validate.rules).message.required = true];
+  SyncTarget target = 1;
   CatchUpStatus status = 2;
   GatewayBatch batch = 3;
   TargetState state = 4;
@@ -116,10 +115,10 @@ message GatewayCatchUpResponse {
 }
 
 message GatewaySubscribeRequest {
-  string subscriber_id = 1 [(validate.rules).string.min_len = 1];
-  repeated SyncTarget targets = 2 [(validate.rules).repeated.min_items = 1];
-  uint32 batch_limit_per_target = 3 [(validate.rules).uint32.lte = 1000];
-  uint32 max_in_flight_per_target = 4 [(validate.rules).uint32.lte = 10000];
+  string subscriber_id = 1;
+  repeated SyncTarget targets = 2;
+  uint32 batch_limit_per_target = 3;
+  uint32 max_in_flight_per_target = 4;
 }
 
 message GatewaySubscribeResponse {
@@ -132,8 +131,8 @@ message GatewaySubscribeResponse {
 }
 
 message GatewayAckRequest {
-  string subscriber_id = 1 [(validate.rules).string.min_len = 1];
-  SyncTarget target = 2 [(validate.rules).message.required = true];
+  string subscriber_id = 1;
+  SyncTarget target = 2;
   uint64 seq = 3;
   string metadata = 4;
   string binding_key = 5;
@@ -144,9 +143,9 @@ message GatewayAckResponse {
 }
 
 message GatewayGetLatestSnapshotRequest {
-  string subscriber_id = 1 [(validate.rules).string.min_len = 1];
-  SyncTarget target = 2 [(validate.rules).message.required = true];
-  string payload_type = 3 [(validate.rules).string.min_len = 1];
+  string subscriber_id = 1;
+  SyncTarget target = 2;
+  string payload_type = 3;
   uint32 max_payload_version = 4;
   string binding_key = 5;
 }

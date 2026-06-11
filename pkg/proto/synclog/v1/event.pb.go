@@ -7,7 +7,6 @@
 package synclogv1
 
 import (
-	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -366,20 +365,20 @@ var File_synclog_v1_event_proto protoreflect.FileDescriptor
 const file_synclog_v1_event_proto_rawDesc = "" +
 	"\n" +
 	"\x16synclog/v1/event.proto\x12\n" +
-	"synclog.v1\x1a\x17validate/validate.proto\"!\n" +
-	"\x06Stream\x12\x17\n" +
-	"\x02id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x02id\"@\n" +
-	"\x06Cursor\x12$\n" +
-	"\tstream_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bstreamId\x12\x10\n" +
-	"\x03seq\x18\x02 \x01(\x04R\x03seq\"\xbf\x01\n" +
-	"\x10SubscriberCursor\x12,\n" +
-	"\rsubscriber_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\fsubscriberId\x124\n" +
-	"\x06cursor\x18\x02 \x01(\v2\x12.synclog.v1.CursorB\b\xfaB\x05\x8a\x01\x02\x10\x01R\x06cursor\x12\x1a\n" +
+	"synclog.v1\"\x18\n" +
+	"\x06Stream\x12\x0e\n" +
+	"\x02id\x18\x01 \x01(\tR\x02id\"7\n" +
+	"\x06Cursor\x12\x1b\n" +
+	"\tstream_id\x18\x01 \x01(\tR\bstreamId\x12\x10\n" +
+	"\x03seq\x18\x02 \x01(\x04R\x03seq\"\xac\x01\n" +
+	"\x10SubscriberCursor\x12#\n" +
+	"\rsubscriber_id\x18\x01 \x01(\tR\fsubscriberId\x12*\n" +
+	"\x06cursor\x18\x02 \x01(\v2\x12.synclog.v1.CursorR\x06cursor\x12\x1a\n" +
 	"\bmetadata\x18\x03 \x01(\tR\bmetadata\x12+\n" +
-	"\x12updated_at_unix_ms\x18\x04 \x01(\x03R\x0fupdatedAtUnixMs\"\x84\x02\n" +
-	"\x05Event\x12$\n" +
-	"\tstream_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bstreamId\x12\x19\n" +
-	"\x03seq\x18\x02 \x01(\x04B\a\xfaB\x042\x02 \x00R\x03seq\x12\x18\n" +
+	"\x12updated_at_unix_ms\x18\x04 \x01(\x03R\x0fupdatedAtUnixMs\"\xf2\x01\n" +
+	"\x05Event\x12\x1b\n" +
+	"\tstream_id\x18\x01 \x01(\tR\bstreamId\x12\x10\n" +
+	"\x03seq\x18\x02 \x01(\x04R\x03seq\x12\x18\n" +
 	"\apayload\x18\x03 \x01(\fR\apayload\x12!\n" +
 	"\fpayload_type\x18\x04 \x01(\tR\vpayloadType\x12'\n" +
 	"\x0fpayload_version\x18\x05 \x01(\rR\x0epayloadVersion\x12'\n" +

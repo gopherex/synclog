@@ -3,7 +3,6 @@ syntax = "proto3";
 package synclog.v1;
 
 import "synclog/v1/event.proto";
-import "validate/validate.proto";
 
 option go_package = "github.com/gopherex/synclog/pkg/proto/synclog/v1;synclogv1";
 
@@ -21,7 +20,7 @@ message Job {
 }
 
 message StreamRetention {
-  string stream_id = 1 [(validate.rules).string.min_len = 1];
+  string stream_id = 1;
   int32 ttl_days = 2;       // 0 = keep forever
   int64 max_events = 3;     // 0 = unlimited
 }
@@ -56,42 +55,42 @@ service SyncLogAdminService {
   rpc GetStreamStats(GetStreamStatsRequest) returns (GetStreamStatsResponse);
 }
 
-message CreateStreamRequest { string stream_id = 1 [(validate.rules).string.min_len = 1]; }
+message CreateStreamRequest { string stream_id = 1; }
 message CreateStreamResponse { Stream stream = 1; }
 
-message DeleteStreamRequest { string stream_id = 1 [(validate.rules).string.min_len = 1]; }
+message DeleteStreamRequest { string stream_id = 1; }
 message DeleteStreamResponse { bool deleted = 1; }
 
 message ListStreamsRequest {
   string prefix = 1;
-  uint32 limit = 2 [(validate.rules).uint32.lte = 1000];
+  uint32 limit = 2;
   string page_token = 3;
 }
 message ListStreamsResponse { repeated Stream streams = 1; string next_page_token = 2; }
 
 message TruncateStreamRequest {
-  string stream_id = 1 [(validate.rules).string.min_len = 1];
+  string stream_id = 1;
   uint64 before_seq = 2;   // remove events with seq < before_seq
 }
 message TruncateStreamResponse { int64 removed = 1; }
 
 // CompactStream removes events below the minimum cursor across all subscribers.
-message CompactStreamRequest { string stream_id = 1 [(validate.rules).string.min_len = 1]; }
+message CompactStreamRequest { string stream_id = 1; }
 message CompactStreamResponse { Job job = 1; }
 
-message SetStreamRetentionRequest { StreamRetention retention = 1 [(validate.rules).message.required = true]; }
+message SetStreamRetentionRequest { StreamRetention retention = 1; }
 message SetStreamRetentionResponse { StreamRetention retention = 1; }
 
 message ResetCursorRequest {
-  string subscriber_id = 1 [(validate.rules).string.min_len = 1];
-  string stream_id = 2 [(validate.rules).string.min_len = 1];
+  string subscriber_id = 1;
+  string stream_id = 2;
   uint64 seq = 3;
   string metadata = 4;
 }
 message ResetCursorResponse { SubscriberCursor cursor = 1; }
 
-message ListCursorsRequest { string stream_id = 1 [(validate.rules).string.min_len = 1]; }
+message ListCursorsRequest { string stream_id = 1; }
 message ListCursorsResponse { repeated SubscriberCursor cursors = 1; }
 
-message GetStreamStatsRequest { string stream_id = 1 [(validate.rules).string.min_len = 1]; }
+message GetStreamStatsRequest { string stream_id = 1; }
 message GetStreamStatsResponse { StreamStats stats = 1; }

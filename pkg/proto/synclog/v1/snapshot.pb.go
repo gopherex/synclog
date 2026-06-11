@@ -7,7 +7,6 @@
 package synclogv1
 
 import (
-	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -843,61 +842,61 @@ var File_synclog_v1_snapshot_proto protoreflect.FileDescriptor
 const file_synclog_v1_snapshot_proto_rawDesc = "" +
 	"\n" +
 	"\x19synclog/v1/snapshot.proto\x12\n" +
-	"synclog.v1\x1a\x17validate/validate.proto\"\xf0\x02\n" +
-	"\vSnapshotRef\x12$\n" +
-	"\tstream_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bstreamId\x12\x10\n" +
-	"\x03seq\x18\x02 \x01(\x04R\x03seq\x12*\n" +
-	"\fpayload_type\x18\x03 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\vpayloadType\x12'\n" +
-	"\x0fpayload_version\x18\x04 \x01(\rR\x0epayloadVersion\x12K\n" +
-	"\vcompression\x18\x05 \x01(\x0e2\x1f.synclog.v1.SnapshotCompressionB\b\xfaB\x05\x82\x01\x02\x10\x01R\vcompression\x12\x1a\n" +
+	"synclog.v1\"\xd4\x02\n" +
+	"\vSnapshotRef\x12\x1b\n" +
+	"\tstream_id\x18\x01 \x01(\tR\bstreamId\x12\x10\n" +
+	"\x03seq\x18\x02 \x01(\x04R\x03seq\x12!\n" +
+	"\fpayload_type\x18\x03 \x01(\tR\vpayloadType\x12'\n" +
+	"\x0fpayload_version\x18\x04 \x01(\rR\x0epayloadVersion\x12A\n" +
+	"\vcompression\x18\x05 \x01(\x0e2\x1f.synclog.v1.SnapshotCompressionR\vcompression\x12\x1a\n" +
 	"\bchecksum\x18\x06 \x01(\tR\bchecksum\x12\x1d\n" +
 	"\n" +
 	"size_bytes\x18\a \x01(\x03R\tsizeBytes\x12+\n" +
 	"\x12created_at_unix_ms\x18\b \x01(\x03R\x0fcreatedAtUnixMs\x12\x1f\n" +
 	"\vproducer_id\x18\t \x01(\tR\n" +
-	"producerId\"Y\n" +
-	"\bSnapshot\x123\n" +
-	"\x03ref\x18\x01 \x01(\v2\x17.synclog.v1.SnapshotRefB\b\xfaB\x05\x8a\x01\x02\x10\x01R\x03ref\x12\x18\n" +
-	"\apayload\x18\x02 \x01(\fR\apayload\"\xc5\x02\n" +
-	"\x12PutSnapshotRequest\x12$\n" +
-	"\tstream_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bstreamId\x12\x10\n" +
+	"producerId\"O\n" +
+	"\bSnapshot\x12)\n" +
+	"\x03ref\x18\x01 \x01(\v2\x17.synclog.v1.SnapshotRefR\x03ref\x12\x18\n" +
+	"\apayload\x18\x02 \x01(\fR\apayload\"\xa9\x02\n" +
+	"\x12PutSnapshotRequest\x12\x1b\n" +
+	"\tstream_id\x18\x01 \x01(\tR\bstreamId\x12\x10\n" +
 	"\x03seq\x18\x02 \x01(\x04R\x03seq\x12\x18\n" +
-	"\apayload\x18\x03 \x01(\fR\apayload\x12*\n" +
-	"\fpayload_type\x18\x04 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\vpayloadType\x12'\n" +
-	"\x0fpayload_version\x18\x05 \x01(\rR\x0epayloadVersion\x12K\n" +
-	"\vcompression\x18\x06 \x01(\x0e2\x1f.synclog.v1.SnapshotCompressionB\b\xfaB\x05\x82\x01\x02\x10\x01R\vcompression\x12\x1a\n" +
+	"\apayload\x18\x03 \x01(\fR\apayload\x12!\n" +
+	"\fpayload_type\x18\x04 \x01(\tR\vpayloadType\x12'\n" +
+	"\x0fpayload_version\x18\x05 \x01(\rR\x0epayloadVersion\x12A\n" +
+	"\vcompression\x18\x06 \x01(\x0e2\x1f.synclog.v1.SnapshotCompressionR\vcompression\x12\x1a\n" +
 	"\bchecksum\x18\a \x01(\tR\bchecksum\x12\x1f\n" +
 	"\vproducer_id\x18\b \x01(\tR\n" +
 	"producerId\"n\n" +
 	"\x13PutSnapshotResponse\x123\n" +
 	"\bsnapshot\x18\x01 \x01(\v2\x17.synclog.v1.SnapshotRefR\bsnapshot\x12\"\n" +
-	"\fdeduplicated\x18\x02 \x01(\bR\fdeduplicated\"\x9c\x01\n" +
-	"\x18GetLatestSnapshotRequest\x12$\n" +
-	"\tstream_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bstreamId\x12*\n" +
-	"\fpayload_type\x18\x02 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\vpayloadType\x12.\n" +
+	"\fdeduplicated\x18\x02 \x01(\bR\fdeduplicated\"\x8a\x01\n" +
+	"\x18GetLatestSnapshotRequest\x12\x1b\n" +
+	"\tstream_id\x18\x01 \x01(\tR\bstreamId\x12!\n" +
+	"\fpayload_type\x18\x02 \x01(\tR\vpayloadType\x12.\n" +
 	"\x13max_payload_version\x18\x03 \x01(\rR\x11maxPayloadVersion\"M\n" +
 	"\x19GetLatestSnapshotResponse\x120\n" +
-	"\bsnapshot\x18\x01 \x01(\v2\x14.synclog.v1.SnapshotR\bsnapshot\"\xa1\x01\n" +
-	"\x12GetSnapshotRequest\x12$\n" +
-	"\tstream_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bstreamId\x12\x10\n" +
-	"\x03seq\x18\x02 \x01(\x04R\x03seq\x12*\n" +
-	"\fpayload_type\x18\x03 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\vpayloadType\x12'\n" +
+	"\bsnapshot\x18\x01 \x01(\v2\x14.synclog.v1.SnapshotR\bsnapshot\"\x8f\x01\n" +
+	"\x12GetSnapshotRequest\x12\x1b\n" +
+	"\tstream_id\x18\x01 \x01(\tR\bstreamId\x12\x10\n" +
+	"\x03seq\x18\x02 \x01(\x04R\x03seq\x12!\n" +
+	"\fpayload_type\x18\x03 \x01(\tR\vpayloadType\x12'\n" +
 	"\x0fpayload_version\x18\x04 \x01(\rR\x0epayloadVersion\"G\n" +
 	"\x13GetSnapshotResponse\x120\n" +
-	"\bsnapshot\x18\x01 \x01(\v2\x14.synclog.v1.SnapshotR\bsnapshot\"\x9e\x01\n" +
-	"\x14ListSnapshotsRequest\x12$\n" +
-	"\tstream_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bstreamId\x12!\n" +
-	"\fpayload_type\x18\x02 \x01(\tR\vpayloadType\x12\x1e\n" +
-	"\x05limit\x18\x03 \x01(\rB\b\xfaB\x05*\x03\x18\xe8\aR\x05limit\x12\x1d\n" +
+	"\bsnapshot\x18\x01 \x01(\v2\x14.synclog.v1.SnapshotR\bsnapshot\"\x8b\x01\n" +
+	"\x14ListSnapshotsRequest\x12\x1b\n" +
+	"\tstream_id\x18\x01 \x01(\tR\bstreamId\x12!\n" +
+	"\fpayload_type\x18\x02 \x01(\tR\vpayloadType\x12\x14\n" +
+	"\x05limit\x18\x03 \x01(\rR\x05limit\x12\x1d\n" +
 	"\n" +
 	"page_token\x18\x04 \x01(\tR\tpageToken\"v\n" +
 	"\x15ListSnapshotsResponse\x125\n" +
 	"\tsnapshots\x18\x01 \x03(\v2\x17.synclog.v1.SnapshotRefR\tsnapshots\x12&\n" +
-	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"\xa4\x01\n" +
-	"\x15DeleteSnapshotRequest\x12$\n" +
-	"\tstream_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bstreamId\x12\x10\n" +
-	"\x03seq\x18\x02 \x01(\x04R\x03seq\x12*\n" +
-	"\fpayload_type\x18\x03 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\vpayloadType\x12'\n" +
+	"\x0fnext_page_token\x18\x02 \x01(\tR\rnextPageToken\"\x92\x01\n" +
+	"\x15DeleteSnapshotRequest\x12\x1b\n" +
+	"\tstream_id\x18\x01 \x01(\tR\bstreamId\x12\x10\n" +
+	"\x03seq\x18\x02 \x01(\x04R\x03seq\x12!\n" +
+	"\fpayload_type\x18\x03 \x01(\tR\vpayloadType\x12'\n" +
 	"\x0fpayload_version\x18\x04 \x01(\rR\x0epayloadVersion\"2\n" +
 	"\x16DeleteSnapshotResponse\x12\x18\n" +
 	"\adeleted\x18\x01 \x01(\bR\adeleted*r\n" +

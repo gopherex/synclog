@@ -7,7 +7,6 @@
 package synclogv1
 
 import (
-	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -1203,11 +1202,11 @@ var File_synclog_v1_gateway_proto protoreflect.FileDescriptor
 const file_synclog_v1_gateway_proto_rawDesc = "" +
 	"\n" +
 	"\x18synclog/v1/gateway.proto\x12\n" +
-	"synclog.v1\x1a\x18synclog/v1/service.proto\x1a\x19synclog/v1/snapshot.proto\x1a\x17validate/validate.proto\"`\n" +
+	"synclog.v1\x1a\x18synclog/v1/service.proto\x1a\x19synclog/v1/snapshot.proto\"N\n" +
 	"\n" +
-	"SyncTarget\x12%\n" +
-	"\tnamespace\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\tnamespace\x12\x17\n" +
-	"\x02id\x18\x02 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\x02id\x12\x12\n" +
+	"SyncTarget\x12\x1c\n" +
+	"\tnamespace\x18\x01 \x01(\tR\tnamespace\x12\x0e\n" +
+	"\x02id\x18\x02 \x01(\tR\x02id\x12\x12\n" +
 	"\x04view\x18\x03 \x01(\tR\x04view\"\x9d\x01\n" +
 	"\x12TargetBindingState\x12\x1f\n" +
 	"\vbinding_key\x18\x01 \x01(\tR\n" +
@@ -1215,65 +1214,65 @@ const file_synclog_v1_gateway_proto_rawDesc = "" +
 	"\n" +
 	"cursor_seq\x18\x02 \x01(\x04R\tcursorSeq\x12\x19\n" +
 	"\bhead_seq\x18\x03 \x01(\x04R\aheadSeq\x12,\n" +
-	"\x12retained_seq_start\x18\x04 \x01(\x04R\x10retainedSeqStart\"\xeb\x01\n" +
-	"\vTargetState\x128\n" +
-	"\x06target\x18\x01 \x01(\v2\x16.synclog.v1.SyncTargetB\b\xfaB\x05\x8a\x01\x02\x10\x01R\x06target\x12\x1d\n" +
+	"\x12retained_seq_start\x18\x04 \x01(\x04R\x10retainedSeqStart\"\xe1\x01\n" +
+	"\vTargetState\x12.\n" +
+	"\x06target\x18\x01 \x01(\v2\x16.synclog.v1.SyncTargetR\x06target\x12\x1d\n" +
 	"\n" +
 	"cursor_seq\x18\x02 \x01(\x04R\tcursorSeq\x12\x19\n" +
 	"\bhead_seq\x18\x03 \x01(\x04R\aheadSeq\x12,\n" +
 	"\x12retained_seq_start\x18\x04 \x01(\x04R\x10retainedSeqStart\x12:\n" +
-	"\bbindings\x18\x05 \x03(\v2\x1e.synclog.v1.TargetBindingStateR\bbindings\"\x97\x02\n" +
-	"\fGatewayEvent\x128\n" +
-	"\x06target\x18\x01 \x01(\v2\x16.synclog.v1.SyncTargetB\b\xfaB\x05\x8a\x01\x02\x10\x01R\x06target\x12\x19\n" +
-	"\x03seq\x18\x02 \x01(\x04B\a\xfaB\x042\x02 \x00R\x03seq\x12\x18\n" +
+	"\bbindings\x18\x05 \x03(\v2\x1e.synclog.v1.TargetBindingStateR\bbindings\"\x84\x02\n" +
+	"\fGatewayEvent\x12.\n" +
+	"\x06target\x18\x01 \x01(\v2\x16.synclog.v1.SyncTargetR\x06target\x12\x10\n" +
+	"\x03seq\x18\x02 \x01(\x04R\x03seq\x12\x18\n" +
 	"\apayload\x18\x03 \x01(\fR\apayload\x12!\n" +
 	"\fpayload_type\x18\x04 \x01(\tR\vpayloadType\x12'\n" +
 	"\x0fpayload_version\x18\x05 \x01(\rR\x0epayloadVersion\x12+\n" +
 	"\x12created_at_unix_ms\x18\x06 \x01(\x03R\x0fcreatedAtUnixMs\x12\x1f\n" +
 	"\vbinding_key\x18\a \x01(\tR\n" +
-	"bindingKey\"\xe0\x01\n" +
-	"\fGatewayBatch\x128\n" +
-	"\x06target\x18\x01 \x01(\v2\x16.synclog.v1.SyncTargetB\b\xfaB\x05\x8a\x01\x02\x10\x01R\x06target\x120\n" +
+	"bindingKey\"\xd6\x01\n" +
+	"\fGatewayBatch\x12.\n" +
+	"\x06target\x18\x01 \x01(\v2\x16.synclog.v1.SyncTargetR\x06target\x120\n" +
 	"\x06events\x18\x02 \x03(\v2\x18.synclog.v1.GatewayEventR\x06events\x12\x1b\n" +
 	"\tseq_start\x18\x03 \x01(\x04R\bseqStart\x12\x10\n" +
 	"\x03seq\x18\x04 \x01(\x04R\x03seq\x12\x14\n" +
 	"\x05final\x18\x05 \x01(\bR\x05final\x12\x1f\n" +
 	"\vbinding_key\x18\x06 \x01(\tR\n" +
-	"bindingKey\"\xcd\x02\n" +
-	"\x0fGatewaySnapshot\x128\n" +
-	"\x06target\x18\x01 \x01(\v2\x16.synclog.v1.SyncTargetB\b\xfaB\x05\x8a\x01\x02\x10\x01R\x06target\x12\x10\n" +
+	"bindingKey\"\xb9\x02\n" +
+	"\x0fGatewaySnapshot\x12.\n" +
+	"\x06target\x18\x01 \x01(\v2\x16.synclog.v1.SyncTargetR\x06target\x12\x10\n" +
 	"\x03seq\x18\x02 \x01(\x04R\x03seq\x12\x18\n" +
 	"\apayload\x18\x03 \x01(\fR\apayload\x12!\n" +
 	"\fpayload_type\x18\x04 \x01(\tR\vpayloadType\x12'\n" +
-	"\x0fpayload_version\x18\x05 \x01(\rR\x0epayloadVersion\x12K\n" +
-	"\vcompression\x18\x06 \x01(\x0e2\x1f.synclog.v1.SnapshotCompressionB\b\xfaB\x05\x82\x01\x02\x10\x01R\vcompression\x12\x1a\n" +
+	"\x0fpayload_version\x18\x05 \x01(\rR\x0epayloadVersion\x12A\n" +
+	"\vcompression\x18\x06 \x01(\x0e2\x1f.synclog.v1.SnapshotCompressionR\vcompression\x12\x1a\n" +
 	"\bchecksum\x18\a \x01(\tR\bchecksum\x12\x1f\n" +
 	"\vbinding_key\x18\b \x01(\tR\n" +
-	"bindingKey\"w\n" +
-	"\vOpenRequest\x12,\n" +
-	"\rsubscriber_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\fsubscriberId\x12:\n" +
-	"\atargets\x18\x02 \x03(\v2\x16.synclog.v1.SyncTargetB\b\xfaB\x05\x92\x01\x02\b\x01R\atargets\"A\n" +
+	"bindingKey\"d\n" +
+	"\vOpenRequest\x12#\n" +
+	"\rsubscriber_id\x18\x01 \x01(\tR\fsubscriberId\x120\n" +
+	"\atargets\x18\x02 \x03(\v2\x16.synclog.v1.SyncTargetR\atargets\"A\n" +
 	"\fOpenResponse\x121\n" +
-	"\atargets\x18\x01 \x03(\v2\x17.synclog.v1.TargetStateR\atargets\"\xea\x01\n" +
-	"\x15GatewayCatchUpRequest\x12,\n" +
-	"\rsubscriber_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\fsubscriberId\x12:\n" +
-	"\atargets\x18\x02 \x03(\v2\x16.synclog.v1.SyncTargetB\b\xfaB\x05\x92\x01\x02\b\x01R\atargets\x122\n" +
-	"\x10limit_per_target\x18\x03 \x01(\rB\b\xfaB\x05*\x03\x18\xe8\aR\x0elimitPerTarget\x123\n" +
-	"\x16total_limit_per_target\x18\x04 \x01(\rR\x13totalLimitPerTarget\"\x83\x02\n" +
-	"\x14GatewayCatchUpResult\x128\n" +
-	"\x06target\x18\x01 \x01(\v2\x16.synclog.v1.SyncTargetB\b\xfaB\x05\x8a\x01\x02\x10\x01R\x06target\x121\n" +
+	"\atargets\x18\x01 \x03(\v2\x17.synclog.v1.TargetStateR\atargets\"\xcd\x01\n" +
+	"\x15GatewayCatchUpRequest\x12#\n" +
+	"\rsubscriber_id\x18\x01 \x01(\tR\fsubscriberId\x120\n" +
+	"\atargets\x18\x02 \x03(\v2\x16.synclog.v1.SyncTargetR\atargets\x12(\n" +
+	"\x10limit_per_target\x18\x03 \x01(\rR\x0elimitPerTarget\x123\n" +
+	"\x16total_limit_per_target\x18\x04 \x01(\rR\x13totalLimitPerTarget\"\xf9\x01\n" +
+	"\x14GatewayCatchUpResult\x12.\n" +
+	"\x06target\x18\x01 \x01(\v2\x16.synclog.v1.SyncTargetR\x06target\x121\n" +
 	"\x06status\x18\x02 \x01(\x0e2\x19.synclog.v1.CatchUpStatusR\x06status\x12.\n" +
 	"\x05batch\x18\x03 \x01(\v2\x18.synclog.v1.GatewayBatchR\x05batch\x12-\n" +
 	"\x05state\x18\x04 \x01(\v2\x17.synclog.v1.TargetStateR\x05state\x12\x1f\n" +
 	"\vbinding_key\x18\x05 \x01(\tR\n" +
 	"bindingKey\"T\n" +
 	"\x16GatewayCatchUpResponse\x12:\n" +
-	"\aresults\x18\x01 \x03(\v2 .synclog.v1.GatewayCatchUpResultR\aresults\"\x84\x02\n" +
-	"\x17GatewaySubscribeRequest\x12,\n" +
-	"\rsubscriber_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\fsubscriberId\x12:\n" +
-	"\atargets\x18\x02 \x03(\v2\x16.synclog.v1.SyncTargetB\b\xfaB\x05\x92\x01\x02\b\x01R\atargets\x12=\n" +
-	"\x16batch_limit_per_target\x18\x03 \x01(\rB\b\xfaB\x05*\x03\x18\xe8\aR\x13batchLimitPerTarget\x12@\n" +
-	"\x18max_in_flight_per_target\x18\x04 \x01(\rB\b\xfaB\x05*\x03\x18\x90NR\x14maxInFlightPerTarget\"\x9a\x02\n" +
+	"\aresults\x18\x01 \x03(\v2 .synclog.v1.GatewayCatchUpResultR\aresults\"\xdd\x01\n" +
+	"\x17GatewaySubscribeRequest\x12#\n" +
+	"\rsubscriber_id\x18\x01 \x01(\tR\fsubscriberId\x120\n" +
+	"\atargets\x18\x02 \x03(\v2\x16.synclog.v1.SyncTargetR\atargets\x123\n" +
+	"\x16batch_limit_per_target\x18\x03 \x01(\rR\x13batchLimitPerTarget\x126\n" +
+	"\x18max_in_flight_per_target\x18\x04 \x01(\rR\x14maxInFlightPerTarget\"\x9a\x02\n" +
 	"\x18GatewaySubscribeResponse\x121\n" +
 	"\x06status\x18\x01 \x01(\x0e2\x19.synclog.v1.CatchUpStatusR\x06status\x12.\n" +
 	"\x05batch\x18\x02 \x01(\v2\x18.synclog.v1.GatewayBatchR\x05batch\x12-\n" +
@@ -1281,20 +1280,20 @@ const file_synclog_v1_gateway_proto_rawDesc = "" +
 	"\theartbeat\x18\x04 \x01(\bR\theartbeat\x12-\n" +
 	"\x13server_time_unix_ms\x18\x05 \x01(\x03R\x10serverTimeUnixMs\x12\x1f\n" +
 	"\vbinding_key\x18\x06 \x01(\tR\n" +
-	"bindingKey\"\xca\x01\n" +
-	"\x11GatewayAckRequest\x12,\n" +
-	"\rsubscriber_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\fsubscriberId\x128\n" +
-	"\x06target\x18\x02 \x01(\v2\x16.synclog.v1.SyncTargetB\b\xfaB\x05\x8a\x01\x02\x10\x01R\x06target\x12\x10\n" +
+	"bindingKey\"\xb7\x01\n" +
+	"\x11GatewayAckRequest\x12#\n" +
+	"\rsubscriber_id\x18\x01 \x01(\tR\fsubscriberId\x12.\n" +
+	"\x06target\x18\x02 \x01(\v2\x16.synclog.v1.SyncTargetR\x06target\x12\x10\n" +
 	"\x03seq\x18\x03 \x01(\x04R\x03seq\x12\x1a\n" +
 	"\bmetadata\x18\x04 \x01(\tR\bmetadata\x12\x1f\n" +
 	"\vbinding_key\x18\x05 \x01(\tR\n" +
 	"bindingKey\"C\n" +
 	"\x12GatewayAckResponse\x12-\n" +
-	"\x05state\x18\x01 \x01(\v2\x17.synclog.v1.TargetStateR\x05state\"\x86\x02\n" +
-	"\x1fGatewayGetLatestSnapshotRequest\x12,\n" +
-	"\rsubscriber_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\fsubscriberId\x128\n" +
-	"\x06target\x18\x02 \x01(\v2\x16.synclog.v1.SyncTargetB\b\xfaB\x05\x8a\x01\x02\x10\x01R\x06target\x12*\n" +
-	"\fpayload_type\x18\x03 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\vpayloadType\x12.\n" +
+	"\x05state\x18\x01 \x01(\v2\x17.synclog.v1.TargetStateR\x05state\"\xea\x01\n" +
+	"\x1fGatewayGetLatestSnapshotRequest\x12#\n" +
+	"\rsubscriber_id\x18\x01 \x01(\tR\fsubscriberId\x12.\n" +
+	"\x06target\x18\x02 \x01(\v2\x16.synclog.v1.SyncTargetR\x06target\x12!\n" +
+	"\fpayload_type\x18\x03 \x01(\tR\vpayloadType\x12.\n" +
 	"\x13max_payload_version\x18\x04 \x01(\rR\x11maxPayloadVersion\x12\x1f\n" +
 	"\vbinding_key\x18\x05 \x01(\tR\n" +
 	"bindingKey\"\x8a\x01\n" +

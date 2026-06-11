@@ -2,7 +2,6 @@ syntax = "proto3";
 
 package synclog.v1;
 
-import "validate/validate.proto";
 
 option go_package = "github.com/gopherex/synclog/pkg/proto/synclog/v1;synclogv1";
 
@@ -16,11 +15,11 @@ enum SnapshotCompression {
 // SnapshotRef is the metadata for one opaque state image. `seq` means the
 // snapshot reflects all events in the stream up to and including that seq.
 message SnapshotRef {
-  string stream_id = 1 [(validate.rules).string.min_len = 1];
+  string stream_id = 1;
   uint64 seq = 2;
-  string payload_type = 3 [(validate.rules).string.min_len = 1];
+  string payload_type = 3;
   uint32 payload_version = 4;
-  SnapshotCompression compression = 5 [(validate.rules).enum = {defined_only: true}];
+  SnapshotCompression compression = 5;
   string checksum = 6;
   int64 size_bytes = 7;
   int64 created_at_unix_ms = 8;
@@ -30,7 +29,7 @@ message SnapshotRef {
 // Snapshot is an opaque state image plus its stream position metadata. Synclog
 // stores and serves the bytes but never builds, parses, or applies them.
 message Snapshot {
-  SnapshotRef ref = 1 [(validate.rules).message.required = true];
+  SnapshotRef ref = 1;
   bytes payload = 2;
 }
 
@@ -51,12 +50,12 @@ service SyncLogSnapshotService {
 }
 
 message PutSnapshotRequest {
-  string stream_id = 1 [(validate.rules).string.min_len = 1];
+  string stream_id = 1;
   uint64 seq = 2;
   bytes payload = 3;
-  string payload_type = 4 [(validate.rules).string.min_len = 1];
+  string payload_type = 4;
   uint32 payload_version = 5;
-  SnapshotCompression compression = 6 [(validate.rules).enum = {defined_only: true}];
+  SnapshotCompression compression = 6;
   string checksum = 7;
   string producer_id = 8;
 }
@@ -67,8 +66,8 @@ message PutSnapshotResponse {
 }
 
 message GetLatestSnapshotRequest {
-  string stream_id = 1 [(validate.rules).string.min_len = 1];
-  string payload_type = 2 [(validate.rules).string.min_len = 1];
+  string stream_id = 1;
+  string payload_type = 2;
   // 0 means "no upper bound"; otherwise return the newest snapshot whose
   // payload_version is <= max_payload_version.
   uint32 max_payload_version = 3;
@@ -79,9 +78,9 @@ message GetLatestSnapshotResponse {
 }
 
 message GetSnapshotRequest {
-  string stream_id = 1 [(validate.rules).string.min_len = 1];
+  string stream_id = 1;
   uint64 seq = 2;
-  string payload_type = 3 [(validate.rules).string.min_len = 1];
+  string payload_type = 3;
   uint32 payload_version = 4;
 }
 
@@ -90,9 +89,9 @@ message GetSnapshotResponse {
 }
 
 message ListSnapshotsRequest {
-  string stream_id = 1 [(validate.rules).string.min_len = 1];
+  string stream_id = 1;
   string payload_type = 2;
-  uint32 limit = 3 [(validate.rules).uint32.lte = 1000];
+  uint32 limit = 3;
   string page_token = 4;
 }
 
@@ -102,9 +101,9 @@ message ListSnapshotsResponse {
 }
 
 message DeleteSnapshotRequest {
-  string stream_id = 1 [(validate.rules).string.min_len = 1];
+  string stream_id = 1;
   uint64 seq = 2;
-  string payload_type = 3 [(validate.rules).string.min_len = 1];
+  string payload_type = 3;
   uint32 payload_version = 4;
 }
 

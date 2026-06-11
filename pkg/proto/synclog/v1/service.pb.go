@@ -7,7 +7,6 @@
 package synclogv1
 
 import (
-	_ "github.com/envoyproxy/protoc-gen-validate/validate"
 	protoreflect "google.golang.org/protobuf/reflect/protoreflect"
 	protoimpl "google.golang.org/protobuf/runtime/protoimpl"
 	reflect "reflect"
@@ -840,31 +839,31 @@ var File_synclog_v1_service_proto protoreflect.FileDescriptor
 const file_synclog_v1_service_proto_rawDesc = "" +
 	"\n" +
 	"\x18synclog/v1/service.proto\x12\n" +
-	"synclog.v1\x1a\x16synclog/v1/event.proto\x1a\x17validate/validate.proto\"\xc4\x01\n" +
-	"\rAppendRequest\x12$\n" +
-	"\tstream_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bstreamId\x12\x18\n" +
+	"synclog.v1\x1a\x16synclog/v1/event.proto\"\xbb\x01\n" +
+	"\rAppendRequest\x12\x1b\n" +
+	"\tstream_id\x18\x01 \x01(\tR\bstreamId\x12\x18\n" +
 	"\apayload\x18\x02 \x01(\fR\apayload\x12!\n" +
 	"\fpayload_type\x18\x03 \x01(\tR\vpayloadType\x12'\n" +
 	"\x0fpayload_version\x18\x04 \x01(\rR\x0epayloadVersion\x12'\n" +
 	"\x0fidempotency_key\x18\x05 \x01(\tR\x0eidempotencyKey\"F\n" +
 	"\x0eAppendResponse\x12\x10\n" +
 	"\x03seq\x18\x01 \x01(\x04R\x03seq\x12\"\n" +
-	"\fdeduplicated\x18\x02 \x01(\bR\fdeduplicated\"6\n" +
-	"\x0eGetHeadRequest\x12$\n" +
-	"\tstream_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bstreamId\"g\n" +
+	"\fdeduplicated\x18\x02 \x01(\bR\fdeduplicated\"-\n" +
+	"\x0eGetHeadRequest\x12\x1b\n" +
+	"\tstream_id\x18\x01 \x01(\tR\bstreamId\"g\n" +
 	"\x0fGetHeadResponse\x12&\n" +
 	"\x04head\x18\x01 \x01(\v2\x12.synclog.v1.CursorR\x04head\x12,\n" +
-	"\x12retained_seq_start\x18\x02 \x01(\x04R\x10retainedSeqStart\"f\n" +
-	"\x10GetCursorRequest\x12,\n" +
-	"\rsubscriber_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\fsubscriberId\x12$\n" +
-	"\tstream_id\x18\x02 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bstreamId\"g\n" +
+	"\x12retained_seq_start\x18\x02 \x01(\x04R\x10retainedSeqStart\"T\n" +
+	"\x10GetCursorRequest\x12#\n" +
+	"\rsubscriber_id\x18\x01 \x01(\tR\fsubscriberId\x12\x1b\n" +
+	"\tstream_id\x18\x02 \x01(\tR\bstreamId\"g\n" +
 	"\x11GetCursorResponse\x12*\n" +
 	"\x06cursor\x18\x01 \x01(\v2\x12.synclog.v1.CursorR\x06cursor\x12&\n" +
-	"\x04head\x18\x02 \x01(\v2\x12.synclog.v1.CursorR\x04head\"\xa5\x01\n" +
-	"\x0eCatchUpRequest\x12,\n" +
-	"\rsubscriber_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\fsubscriberId\x12$\n" +
-	"\tstream_id\x18\x02 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bstreamId\x12\x1e\n" +
-	"\x05limit\x18\x03 \x01(\rB\b\xfaB\x05*\x03\x18\xe8\aR\x05limit\x12\x1f\n" +
+	"\x04head\x18\x02 \x01(\v2\x12.synclog.v1.CursorR\x04head\"\x89\x01\n" +
+	"\x0eCatchUpRequest\x12#\n" +
+	"\rsubscriber_id\x18\x01 \x01(\tR\fsubscriberId\x12\x1b\n" +
+	"\tstream_id\x18\x02 \x01(\tR\bstreamId\x12\x14\n" +
+	"\x05limit\x18\x03 \x01(\rR\x05limit\x12\x1f\n" +
 	"\vtotal_limit\x18\x04 \x01(\rR\n" +
 	"totalLimit\"\xf4\x01\n" +
 	"\x0fCatchUpResponse\x121\n" +
@@ -872,13 +871,13 @@ const file_synclog_v1_service_proto_rawDesc = "" +
 	"\x05batch\x18\x02 \x01(\v2\x16.synclog.v1.EventBatchR\x05batch\x12*\n" +
 	"\x06cursor\x18\x03 \x01(\v2\x12.synclog.v1.CursorR\x06cursor\x12&\n" +
 	"\x04head\x18\x04 \x01(\v2\x12.synclog.v1.CursorR\x04head\x12,\n" +
-	"\x12retained_seq_start\x18\x05 \x01(\x04R\x10retainedSeqStart\"\xbf\x01\n" +
-	"\x10SubscribeRequest\x12,\n" +
-	"\rsubscriber_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\fsubscriberId\x12$\n" +
-	"\tstream_id\x18\x02 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bstreamId\x12)\n" +
-	"\vbatch_limit\x18\x03 \x01(\rB\b\xfaB\x05*\x03\x18\xe8\aR\n" +
-	"batchLimit\x12,\n" +
-	"\rmax_in_flight\x18\x04 \x01(\rB\b\xfaB\x05*\x03\x18\x90NR\vmaxInFlight\"\xc3\x02\n" +
+	"\x12retained_seq_start\x18\x05 \x01(\x04R\x10retainedSeqStart\"\x99\x01\n" +
+	"\x10SubscribeRequest\x12#\n" +
+	"\rsubscriber_id\x18\x01 \x01(\tR\fsubscriberId\x12\x1b\n" +
+	"\tstream_id\x18\x02 \x01(\tR\bstreamId\x12\x1f\n" +
+	"\vbatch_limit\x18\x03 \x01(\rR\n" +
+	"batchLimit\x12\"\n" +
+	"\rmax_in_flight\x18\x04 \x01(\rR\vmaxInFlight\"\xc3\x02\n" +
 	"\x11SubscribeResponse\x121\n" +
 	"\x06status\x18\x01 \x01(\x0e2\x19.synclog.v1.CatchUpStatusR\x06status\x12,\n" +
 	"\x05batch\x18\x02 \x01(\v2\x16.synclog.v1.EventBatchR\x05batch\x12*\n" +
@@ -886,11 +885,11 @@ const file_synclog_v1_service_proto_rawDesc = "" +
 	"\x04head\x18\x04 \x01(\v2\x12.synclog.v1.CursorR\x04head\x12,\n" +
 	"\x12retained_seq_start\x18\x05 \x01(\x04R\x10retainedSeqStart\x12\x1c\n" +
 	"\theartbeat\x18\x06 \x01(\bR\theartbeat\x12-\n" +
-	"\x13server_time_unix_ms\x18\a \x01(\x03R\x10serverTimeUnixMs\"\x8e\x01\n" +
+	"\x13server_time_unix_ms\x18\a \x01(\x03R\x10serverTimeUnixMs\"|\n" +
 	"\n" +
-	"AckRequest\x12,\n" +
-	"\rsubscriber_id\x18\x01 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\fsubscriberId\x12$\n" +
-	"\tstream_id\x18\x02 \x01(\tB\a\xfaB\x04r\x02\x10\x01R\bstreamId\x12\x10\n" +
+	"AckRequest\x12#\n" +
+	"\rsubscriber_id\x18\x01 \x01(\tR\fsubscriberId\x12\x1b\n" +
+	"\tstream_id\x18\x02 \x01(\tR\bstreamId\x12\x10\n" +
 	"\x03seq\x18\x03 \x01(\x04R\x03seq\x12\x1a\n" +
 	"\bmetadata\x18\x04 \x01(\tR\bmetadata\"a\n" +
 	"\vAckResponse\x12*\n" +
