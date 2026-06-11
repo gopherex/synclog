@@ -12,7 +12,7 @@ generate:
     - directory: synclog
   plugins:
     - name: es
-      out: ../ts/synclog/src/proto
+      out: ts/synclog/src/proto
       opts:
         target: ts
         import_extension: js

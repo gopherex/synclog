@@ -11,10 +11,10 @@ generate:
     - directory: synclog
   plugins:
     - name: go
-      out: ../pkg/proto
+      out: pkg/proto
       opts:
         paths: source_relative
     - name: go-grpc
-      out: ../pkg/proto
+      out: pkg/proto
       opts:
         paths: source_relative

@@ -18,7 +18,7 @@ help:
 # --- codegen / build ---------------------------------------------------------
 
 gen:
-	cd protocols && easyp -cfg easyp.go.yaml mod update && easyp -cfg easyp.go.yaml mod vendor && easyp -cfg easyp.go.yaml generate && easyp -cfg easyp.ts.yaml generate
+	easyp -cfg easyp.go.yaml mod update && easyp -cfg easyp.go.yaml mod vendor && easyp -cfg easyp.go.yaml generate && easyp -cfg easyp.ts.yaml generate
 
 fmt:
 	gofmt -w .
