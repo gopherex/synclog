@@ -2,6 +2,7 @@ package gateway
 
 import (
 	"context"
+	"errors"
 	"fmt"
 	"time"
 
@@ -96,6 +97,53 @@ func (e *Engine) Open(ctx context.Context, actor any, req *synclogv1.OpenRequest
 		states = append(states, state)
 	}
 	return &synclogv1.OpenResponse{Targets: states}, nil
+}
+
+// ResolveSubscribeTargets resolves and authorizes targets for incremental
+// addition to a live subscribe stream. It returns the resolved state of each
+// accepted target and a per-target rejection for each target that fails
+// resolution or authorization. Rejecting one target never fails the call: this
+// isolates per-target failures so one bad target cannot tear down the stream.
+//
+// A nil error means the subscriber itself resolved; only subscriber resolution
+// (or argument) failures are returned as a fatal error.
+func (e *Engine) ResolveSubscribeTargets(ctx context.Context, actor any, requestedSubscriberID synclog.SubscriberID, targets []*synclogv1.SyncTarget) ([]*synclogv1.TargetState, []*synclogv1.TargetRejection, error) {
+	subscriberID, err := e.resolveSubscriber(ctx, actor, requestedSubscriberID)
+	if err != nil {
+		return nil, nil, err
+	}
+
+	states := make([]*synclogv1.TargetState, 0, len(targets))
+	rejections := make([]*synclogv1.TargetRejection, 0)
+	for _, target := range targets {
+		state, err := e.resolveSubscribeTarget(ctx, actor, subscriberID, target)
+		if err != nil {
+			rejections = append(rejections, &synclogv1.TargetRejection{
+				Target:  cloneTarget(target),
+				Code:    rejectionCode(err),
+				Message: err.Error(),
+			})
+			continue
+		}
+		states = append(states, state)
+	}
+	return states, rejections, nil
+}
+
+func (e *Engine) resolveSubscribeTarget(ctx context.Context, actor any, subscriberID synclog.SubscriberID, target *synclogv1.SyncTarget) (*synclogv1.TargetState, error) {
+	bindings, err := e.resolveBindings(ctx, actor, target)
+	if err != nil {
+		return nil, err
+	}
+	if err := e.authorize(ctx, AuthRequest{
+		Actor:        actor,
+		Operation:    OperationSubscribe,
+		Target:       target,
+		SubscriberID: subscriberID,
+	}); err != nil {
+		return nil, err
+	}
+	return e.targetState(ctx, subscriberID, target, bindings)
 }
 
 func (e *Engine) GatewayCatchUp(ctx context.Context, actor any, req *synclogv1.GatewayCatchUpRequest) (*synclogv1.GatewayCatchUpResponse, error) {
@@ -598,6 +646,24 @@ func requireAllowedType(allowed []string, payloadType string, kind string) error
 		}
 	}
 	return fmt.Errorf("%w: %s type %q is not allowed by target binding", synclog.ErrInvalidArgument, kind, payloadType)
+}
+
+// rejectionCode maps a target resolution/authorization error to a stable,
+// gRPC-style code string for TargetRejection. It mirrors the transport's
+// error→status mapping but stays transport-agnostic in the engine.
+func rejectionCode(err error) string {
+	switch {
+	case errors.Is(err, ErrAccessDenied):
+		return "PERMISSION_DENIED"
+	case errors.Is(err, synclog.ErrInvalidArgument):
+		return "INVALID_ARGUMENT"
+	case errors.Is(err, synclog.ErrNotFound):
+		return "NOT_FOUND"
+	case errors.Is(err, synclog.ErrTooLong):
+		return "FAILED_PRECONDITION"
+	default:
+		return "INTERNAL"
+	}
 }
 
 func toPBCatchUpStatus(in synclog.CatchUpStatus) synclogv1.CatchUpStatus {

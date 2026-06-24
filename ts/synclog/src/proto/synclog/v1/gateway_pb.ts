@@ -14,7 +14,7 @@ import type { Message } from "@bufbuild/protobuf";
  * Describes the file synclog/v1/gateway.proto.
  */
 export const file_synclog_v1_gateway: GenFile = /*@__PURE__*/
-  fileDesc("ChhzeW5jbG9nL3YxL2dhdGV3YXkucHJvdG8SCnN5bmNsb2cudjEiOQoKU3luY1RhcmdldBIRCgluYW1lc3BhY2UYASABKAkSCgoCaWQYAiABKAkSDAoEdmlldxgDIAEoCSJrChJUYXJnZXRCaW5kaW5nU3RhdGUSEwoLYmluZGluZ19rZXkYASABKAkSEgoKY3Vyc29yX3NlcRgCIAEoBBIQCghoZWFkX3NlcRgDIAEoBBIaChJyZXRhaW5lZF9zZXFfc3RhcnQYBCABKAQiqQEKC1RhcmdldFN0YXRlEiYKBnRhcmdldBgBIAEoCzIWLnN5bmNsb2cudjEuU3luY1RhcmdldBISCgpjdXJzb3Jfc2VxGAIgASgEEhAKCGhlYWRfc2VxGAMgASgEEhoKEnJldGFpbmVkX3NlcV9zdGFydBgEIAEoBBIwCghiaW5kaW5ncxgFIAMoCzIeLnN5bmNsb2cudjEuVGFyZ2V0QmluZGluZ1N0YXRlIrQBCgxHYXRld2F5RXZlbnQSJgoGdGFyZ2V0GAEgASgLMhYuc3luY2xvZy52MS5TeW5jVGFyZ2V0EgsKA3NlcRgCIAEoBBIPCgdwYXlsb2FkGAMgASgMEhQKDHBheWxvYWRfdHlwZRgEIAEoCRIXCg9wYXlsb2FkX3ZlcnNpb24YBSABKA0SGgoSY3JlYXRlZF9hdF91bml4X21zGAYgASgDEhMKC2JpbmRpbmdfa2V5GAcgASgJIqQBCgxHYXRld2F5QmF0Y2gSJgoGdGFyZ2V0GAEgASgLMhYuc3luY2xvZy52MS5TeW5jVGFyZ2V0EigKBmV2ZW50cxgCIAMoCzIYLnN5bmNsb2cudjEuR2F0ZXdheUV2ZW50EhEKCXNlcV9zdGFydBgDIAEoBBILCgNzZXEYBCABKAQSDQoFZmluYWwYBSABKAgSEwoLYmluZGluZ19rZXkYBiABKAki4wEKD0dhdGV3YXlTbmFwc2hvdBImCgZ0YXJnZXQYASABKAsyFi5zeW5jbG9nLnYxLlN5bmNUYXJnZXQSCwoDc2VxGAIgASgEEg8KB3BheWxvYWQYAyABKAwSFAoMcGF5bG9hZF90eXBlGAQgASgJEhcKD3BheWxvYWRfdmVyc2lvbhgFIAEoDRI0Cgtjb21wcmVzc2lvbhgGIAEoDjIfLnN5bmNsb2cudjEuU25hcHNob3RDb21wcmVzc2lvbhIQCghjaGVja3N1bRgHIAEoCRITCgtiaW5kaW5nX2tleRgIIAEoCSJNCgtPcGVuUmVxdWVzdBIVCg1zdWJzY3JpYmVyX2lkGAEgASgJEicKB3RhcmdldHMYAiADKAsyFi5zeW5jbG9nLnYxLlN5bmNUYXJnZXQiOAoMT3BlblJlc3BvbnNlEigKB3RhcmdldHMYASADKAsyFy5zeW5jbG9nLnYxLlRhcmdldFN0YXRlIpEBChVHYXRld2F5Q2F0Y2hVcFJlcXVlc3QSFQoNc3Vic2NyaWJlcl9pZBgBIAEoCRInCgd0YXJnZXRzGAIgAygLMhYuc3luY2xvZy52MS5TeW5jVGFyZ2V0EhgKEGxpbWl0X3Blcl90YXJnZXQYAyABKA0SHgoWdG90YWxfbGltaXRfcGVyX3RhcmdldBgEIAEoDSLPAQoUR2F0ZXdheUNhdGNoVXBSZXN1bHQSJgoGdGFyZ2V0GAEgASgLMhYuc3luY2xvZy52MS5TeW5jVGFyZ2V0EikKBnN0YXR1cxgCIAEoDjIZLnN5bmNsb2cudjEuQ2F0Y2hVcFN0YXR1cxInCgViYXRjaBgDIAEoCzIYLnN5bmNsb2cudjEuR2F0ZXdheUJhdGNoEiYKBXN0YXRlGAQgASgLMhcuc3luY2xvZy52MS5UYXJnZXRTdGF0ZRITCgtiaW5kaW5nX2tleRgFIAEoCSJLChZHYXRld2F5Q2F0Y2hVcFJlc3BvbnNlEjEKB3Jlc3VsdHMYASADKAsyIC5zeW5jbG9nLnYxLkdhdGV3YXlDYXRjaFVwUmVzdWx0IpsBChdHYXRld2F5U3Vic2NyaWJlUmVxdWVzdBIVCg1zdWJzY3JpYmVyX2lkGAEgASgJEicKB3RhcmdldHMYAiADKAsyFi5zeW5jbG9nLnYxLlN5bmNUYXJnZXQSHgoWYmF0Y2hfbGltaXRfcGVyX3RhcmdldBgDIAEoDRIgChhtYXhfaW5fZmxpZ2h0X3Blcl90YXJnZXQYBCABKA0i2wEKGEdhdGV3YXlTdWJzY3JpYmVSZXNwb25zZRIpCgZzdGF0dXMYASABKA4yGS5zeW5jbG9nLnYxLkNhdGNoVXBTdGF0dXMSJwoFYmF0Y2gYAiABKAsyGC5zeW5jbG9nLnYxLkdhdGV3YXlCYXRjaBImCgVzdGF0ZRgDIAEoCzIXLnN5bmNsb2cudjEuVGFyZ2V0U3RhdGUSEQoJaGVhcnRiZWF0GAQgASgIEhsKE3NlcnZlcl90aW1lX3VuaXhfbXMYBSABKAMSEwoLYmluZGluZ19rZXkYBiABKAkihgEKEUdhdGV3YXlBY2tSZXF1ZXN0EhUKDXN1YnNjcmliZXJfaWQYASABKAkSJgoGdGFyZ2V0GAIgASgLMhYuc3luY2xvZy52MS5TeW5jVGFyZ2V0EgsKA3NlcRgDIAEoBBIQCghtZXRhZGF0YRgEIAEoCRITCgtiaW5kaW5nX2tleRgFIAEoCSI8ChJHYXRld2F5QWNrUmVzcG9uc2USJgoFc3RhdGUYASABKAsyFy5zeW5jbG9nLnYxLlRhcmdldFN0YXRlIqgBCh9HYXRld2F5R2V0TGF0ZXN0U25hcHNob3RSZXF1ZXN0EhUKDXN1YnNjcmliZXJfaWQYASABKAkSJgoGdGFyZ2V0GAIgASgLMhYuc3luY2xvZy52MS5TeW5jVGFyZ2V0EhQKDHBheWxvYWRfdHlwZRgDIAEoCRIbChNtYXhfcGF5bG9hZF92ZXJzaW9uGAQgASgNEhMKC2JpbmRpbmdfa2V5GAUgASgJInkKIEdhdGV3YXlHZXRMYXRlc3RTbmFwc2hvdFJlc3BvbnNlEi0KCHNuYXBzaG90GAEgASgLMhsuc3luY2xvZy52MS5HYXRld2F5U25hcHNob3QSJgoFc3RhdGUYAiABKAsyFy5zeW5jbG9nLnYxLlRhcmdldFN0YXRlMs0DChJTeW5jR2F0ZXdheVNlcnZpY2USOQoET3BlbhIXLnN5bmNsb2cudjEuT3BlblJlcXVlc3QaGC5zeW5jbG9nLnYxLk9wZW5SZXNwb25zZRJXCg5HYXRld2F5Q2F0Y2hVcBIhLnN5bmNsb2cudjEuR2F0ZXdheUNhdGNoVXBSZXF1ZXN0GiIuc3luY2xvZy52MS5HYXRld2F5Q2F0Y2hVcFJlc3BvbnNlEl8KEEdhdGV3YXlTdWJzY3JpYmUSIy5zeW5jbG9nLnYxLkdhdGV3YXlTdWJzY3JpYmVSZXF1ZXN0GiQuc3luY2xvZy52MS5HYXRld2F5U3Vic2NyaWJlUmVzcG9uc2UwARJLCgpHYXRld2F5QWNrEh0uc3luY2xvZy52MS5HYXRld2F5QWNrUmVxdWVzdBoeLnN5bmNsb2cudjEuR2F0ZXdheUFja1Jlc3BvbnNlEnUKGEdhdGV3YXlHZXRMYXRlc3RTbmFwc2hvdBIrLnN5bmNsb2cudjEuR2F0ZXdheUdldExhdGVzdFNuYXBzaG90UmVxdWVzdBosLnN5bmNsb2cudjEuR2F0ZXdheUdldExhdGVzdFNuYXBzaG90UmVzcG9uc2VCPFo6Z2l0aHViLmNvbS9nb3BoZXJleC9zeW5jbG9nL3BrZy9wcm90by9zeW5jbG9nL3YxO3N5bmNsb2d2MWIGcHJvdG8z", [file_synclog_v1_service, file_synclog_v1_snapshot]);
+  fileDesc("ChhzeW5jbG9nL3YxL2dhdGV3YXkucHJvdG8SCnN5bmNsb2cudjEiOQoKU3luY1RhcmdldBIRCgluYW1lc3BhY2UYASABKAkSCgoCaWQYAiABKAkSDAoEdmlldxgDIAEoCSJrChJUYXJnZXRCaW5kaW5nU3RhdGUSEwoLYmluZGluZ19rZXkYASABKAkSEgoKY3Vyc29yX3NlcRgCIAEoBBIQCghoZWFkX3NlcRgDIAEoBBIaChJyZXRhaW5lZF9zZXFfc3RhcnQYBCABKAQiqQEKC1RhcmdldFN0YXRlEiYKBnRhcmdldBgBIAEoCzIWLnN5bmNsb2cudjEuU3luY1RhcmdldBISCgpjdXJzb3Jfc2VxGAIgASgEEhAKCGhlYWRfc2VxGAMgASgEEhoKEnJldGFpbmVkX3NlcV9zdGFydBgEIAEoBBIwCghiaW5kaW5ncxgFIAMoCzIeLnN5bmNsb2cudjEuVGFyZ2V0QmluZGluZ1N0YXRlIrQBCgxHYXRld2F5RXZlbnQSJgoGdGFyZ2V0GAEgASgLMhYuc3luY2xvZy52MS5TeW5jVGFyZ2V0EgsKA3NlcRgCIAEoBBIPCgdwYXlsb2FkGAMgASgMEhQKDHBheWxvYWRfdHlwZRgEIAEoCRIXCg9wYXlsb2FkX3ZlcnNpb24YBSABKA0SGgoSY3JlYXRlZF9hdF91bml4X21zGAYgASgDEhMKC2JpbmRpbmdfa2V5GAcgASgJIqQBCgxHYXRld2F5QmF0Y2gSJgoGdGFyZ2V0GAEgASgLMhYuc3luY2xvZy52MS5TeW5jVGFyZ2V0EigKBmV2ZW50cxgCIAMoCzIYLnN5bmNsb2cudjEuR2F0ZXdheUV2ZW50EhEKCXNlcV9zdGFydBgDIAEoBBILCgNzZXEYBCABKAQSDQoFZmluYWwYBSABKAgSEwoLYmluZGluZ19rZXkYBiABKAki4wEKD0dhdGV3YXlTbmFwc2hvdBImCgZ0YXJnZXQYASABKAsyFi5zeW5jbG9nLnYxLlN5bmNUYXJnZXQSCwoDc2VxGAIgASgEEg8KB3BheWxvYWQYAyABKAwSFAoMcGF5bG9hZF90eXBlGAQgASgJEhcKD3BheWxvYWRfdmVyc2lvbhgFIAEoDRI0Cgtjb21wcmVzc2lvbhgGIAEoDjIfLnN5bmNsb2cudjEuU25hcHNob3RDb21wcmVzc2lvbhIQCghjaGVja3N1bRgHIAEoCRITCgtiaW5kaW5nX2tleRgIIAEoCSJNCgtPcGVuUmVxdWVzdBIVCg1zdWJzY3JpYmVyX2lkGAEgASgJEicKB3RhcmdldHMYAiADKAsyFi5zeW5jbG9nLnYxLlN5bmNUYXJnZXQiOAoMT3BlblJlc3BvbnNlEigKB3RhcmdldHMYASADKAsyFy5zeW5jbG9nLnYxLlRhcmdldFN0YXRlIpEBChVHYXRld2F5Q2F0Y2hVcFJlcXVlc3QSFQoNc3Vic2NyaWJlcl9pZBgBIAEoCRInCgd0YXJnZXRzGAIgAygLMhYuc3luY2xvZy52MS5TeW5jVGFyZ2V0EhgKEGxpbWl0X3Blcl90YXJnZXQYAyABKA0SHgoWdG90YWxfbGltaXRfcGVyX3RhcmdldBgEIAEoDSLPAQoUR2F0ZXdheUNhdGNoVXBSZXN1bHQSJgoGdGFyZ2V0GAEgASgLMhYuc3luY2xvZy52MS5TeW5jVGFyZ2V0EikKBnN0YXR1cxgCIAEoDjIZLnN5bmNsb2cudjEuQ2F0Y2hVcFN0YXR1cxInCgViYXRjaBgDIAEoCzIYLnN5bmNsb2cudjEuR2F0ZXdheUJhdGNoEiYKBXN0YXRlGAQgASgLMhcuc3luY2xvZy52MS5UYXJnZXRTdGF0ZRITCgtiaW5kaW5nX2tleRgFIAEoCSJLChZHYXRld2F5Q2F0Y2hVcFJlc3BvbnNlEjEKB3Jlc3VsdHMYASADKAsyIC5zeW5jbG9nLnYxLkdhdGV3YXlDYXRjaFVwUmVzdWx0IrQBChdHYXRld2F5U3Vic2NyaWJlUmVxdWVzdBIVCg1zdWJzY3JpYmVyX2lkGAEgASgJEicKB3RhcmdldHMYAiADKAsyFi5zeW5jbG9nLnYxLlN5bmNUYXJnZXQSHgoWYmF0Y2hfbGltaXRfcGVyX3RhcmdldBgDIAEoDRIgChhtYXhfaW5fZmxpZ2h0X3Blcl90YXJnZXQYBCABKA0SFwoPc3Vic2NyaXB0aW9uX2lkGAUgASgJIlgKD1RhcmdldFJlamVjdGlvbhImCgZ0YXJnZXQYASABKAsyFi5zeW5jbG9nLnYxLlN5bmNUYXJnZXQSDAoEY29kZRgCIAEoCRIPCgdtZXNzYWdlGAMgASgJIqgBChlNb2RpZnlTdWJzY3JpcHRpb25SZXF1ZXN0EhUKDXN1YnNjcmliZXJfaWQYASABKAkSFwoPc3Vic2NyaXB0aW9uX2lkGAIgASgJEisKC2FkZF90YXJnZXRzGAMgAygLMhYuc3luY2xvZy52MS5TeW5jVGFyZ2V0Ei4KDnJlbW92ZV90YXJnZXRzGAQgAygLMhYuc3luY2xvZy52MS5TeW5jVGFyZ2V0InMKGk1vZGlmeVN1YnNjcmlwdGlvblJlc3BvbnNlEiYKBWFkZGVkGAEgAygLMhcuc3luY2xvZy52MS5UYXJnZXRTdGF0ZRItCghyZWplY3RlZBgCIAMoCzIbLnN5bmNsb2cudjEuVGFyZ2V0UmVqZWN0aW9uItsBChhHYXRld2F5U3Vic2NyaWJlUmVzcG9uc2USKQoGc3RhdHVzGAEgASgOMhkuc3luY2xvZy52MS5DYXRjaFVwU3RhdHVzEicKBWJhdGNoGAIgASgLMhguc3luY2xvZy52MS5HYXRld2F5QmF0Y2gSJgoFc3RhdGUYAyABKAsyFy5zeW5jbG9nLnYxLlRhcmdldFN0YXRlEhEKCWhlYXJ0YmVhdBgEIAEoCBIbChNzZXJ2ZXJfdGltZV91bml4X21zGAUgASgDEhMKC2JpbmRpbmdfa2V5GAYgASgJIoYBChFHYXRld2F5QWNrUmVxdWVzdBIVCg1zdWJzY3JpYmVyX2lkGAEgASgJEiYKBnRhcmdldBgCIAEoCzIWLnN5bmNsb2cudjEuU3luY1RhcmdldBILCgNzZXEYAyABKAQSEAoIbWV0YWRhdGEYBCABKAkSEwoLYmluZGluZ19rZXkYBSABKAkiPAoSR2F0ZXdheUFja1Jlc3BvbnNlEiYKBXN0YXRlGAEgASgLMhcuc3luY2xvZy52MS5UYXJnZXRTdGF0ZSKoAQofR2F0ZXdheUdldExhdGVzdFNuYXBzaG90UmVxdWVzdBIVCg1zdWJzY3JpYmVyX2lkGAEgASgJEiYKBnRhcmdldBgCIAEoCzIWLnN5bmNsb2cudjEuU3luY1RhcmdldBIUCgxwYXlsb2FkX3R5cGUYAyABKAkSGwoTbWF4X3BheWxvYWRfdmVyc2lvbhgEIAEoDRITCgtiaW5kaW5nX2tleRgFIAEoCSJ5CiBHYXRld2F5R2V0TGF0ZXN0U25hcHNob3RSZXNwb25zZRItCghzbmFwc2hvdBgBIAEoCzIbLnN5bmNsb2cudjEuR2F0ZXdheVNuYXBzaG90EiYKBXN0YXRlGAIgASgLMhcuc3luY2xvZy52MS5UYXJnZXRTdGF0ZTKyBAoSU3luY0dhdGV3YXlTZXJ2aWNlEjkKBE9wZW4SFy5zeW5jbG9nLnYxLk9wZW5SZXF1ZXN0Ghguc3luY2xvZy52MS5PcGVuUmVzcG9uc2USVwoOR2F0ZXdheUNhdGNoVXASIS5zeW5jbG9nLnYxLkdhdGV3YXlDYXRjaFVwUmVxdWVzdBoiLnN5bmNsb2cudjEuR2F0ZXdheUNhdGNoVXBSZXNwb25zZRJfChBHYXRld2F5U3Vic2NyaWJlEiMuc3luY2xvZy52MS5HYXRld2F5U3Vic2NyaWJlUmVxdWVzdBokLnN5bmNsb2cudjEuR2F0ZXdheVN1YnNjcmliZVJlc3BvbnNlMAESYwoSTW9kaWZ5U3Vic2NyaXB0aW9uEiUuc3luY2xvZy52MS5Nb2RpZnlTdWJzY3JpcHRpb25SZXF1ZXN0GiYuc3luY2xvZy52MS5Nb2RpZnlTdWJzY3JpcHRpb25SZXNwb25zZRJLCgpHYXRld2F5QWNrEh0uc3luY2xvZy52MS5HYXRld2F5QWNrUmVxdWVzdBoeLnN5bmNsb2cudjEuR2F0ZXdheUFja1Jlc3BvbnNlEnUKGEdhdGV3YXlHZXRMYXRlc3RTbmFwc2hvdBIrLnN5bmNsb2cudjEuR2F0ZXdheUdldExhdGVzdFNuYXBzaG90UmVxdWVzdBosLnN5bmNsb2cudjEuR2F0ZXdheUdldExhdGVzdFNuYXBzaG90UmVzcG9uc2VCPFo6Z2l0aHViLmNvbS9nb3BoZXJleC9zeW5jbG9nL3BrZy9wcm90by9zeW5jbG9nL3YxO3N5bmNsb2d2MWIGcHJvdG8z", [file_synclog_v1_service, file_synclog_v1_snapshot]);
 
 /**
  * SyncTarget is the public/product-facing address of a syncable entity. The
@@ -720,6 +720,15 @@ export type GatewaySubscribeRequest = Message<"synclog.v1.GatewaySubscribeReques
    * @generated from field: uint32 max_in_flight_per_target = 4;
    */
   maxInFlightPerTarget: number;
+
+  /**
+   * Client-chosen stable id addressing this live stream for ModifySubscription.
+   * Optional: leave empty to opt out of incremental add/remove for this stream.
+   * Must be unique among the subscriber's concurrently active subscribe streams.
+   *
+   * @generated from field: string subscription_id = 5;
+   */
+  subscriptionId: string;
 };
 
 /**
@@ -745,6 +754,15 @@ export type GatewaySubscribeRequestJson = {
    * @generated from field: uint32 max_in_flight_per_target = 4;
    */
   maxInFlightPerTarget?: number;
+
+  /**
+   * Client-chosen stable id addressing this live stream for ModifySubscription.
+   * Optional: leave empty to opt out of incremental add/remove for this stream.
+   * Must be unique among the subscriber's concurrently active subscribe streams.
+   *
+   * @generated from field: string subscription_id = 5;
+   */
+  subscriptionId?: string;
 };
 
 /**
@@ -753,6 +771,173 @@ export type GatewaySubscribeRequestJson = {
  */
 export const GatewaySubscribeRequestSchema: GenMessage<GatewaySubscribeRequest, {jsonType: GatewaySubscribeRequestJson}> = /*@__PURE__*/
   messageDesc(file_synclog_v1_gateway, 11);
+
+/**
+ * TargetRejection reports a target that could not be accepted (resolution or
+ * authorization failure). Rejecting one target never fails the whole call: the
+ * remaining targets are still applied, isolating per-target failures.
+ *
+ * @generated from message synclog.v1.TargetRejection
+ */
+export type TargetRejection = Message<"synclog.v1.TargetRejection"> & {
+  /**
+   * @generated from field: synclog.v1.SyncTarget target = 1;
+   */
+  target?: SyncTarget;
+
+  /**
+   * gRPC-style code string, e.g. "PERMISSION_DENIED", "INVALID_ARGUMENT".
+   *
+   * @generated from field: string code = 2;
+   */
+  code: string;
+
+  /**
+   * @generated from field: string message = 3;
+   */
+  message: string;
+};
+
+/**
+ * TargetRejection reports a target that could not be accepted (resolution or
+ * authorization failure). Rejecting one target never fails the whole call: the
+ * remaining targets are still applied, isolating per-target failures.
+ *
+ * @generated from message synclog.v1.TargetRejection
+ */
+export type TargetRejectionJson = {
+  /**
+   * @generated from field: synclog.v1.SyncTarget target = 1;
+   */
+  target?: SyncTargetJson;
+
+  /**
+   * gRPC-style code string, e.g. "PERMISSION_DENIED", "INVALID_ARGUMENT".
+   *
+   * @generated from field: string code = 2;
+   */
+  code?: string;
+
+  /**
+   * @generated from field: string message = 3;
+   */
+  message?: string;
+};
+
+/**
+ * Describes the message synclog.v1.TargetRejection.
+ * Use `create(TargetRejectionSchema)` to create a new message.
+ */
+export const TargetRejectionSchema: GenMessage<TargetRejection, {jsonType: TargetRejectionJson}> = /*@__PURE__*/
+  messageDesc(file_synclog_v1_gateway, 12);
+
+/**
+ * @generated from message synclog.v1.ModifySubscriptionRequest
+ */
+export type ModifySubscriptionRequest = Message<"synclog.v1.ModifySubscriptionRequest"> & {
+  /**
+   * @generated from field: string subscriber_id = 1;
+   */
+  subscriberId: string;
+
+  /**
+   * Identifies the live subscribe stream to mutate (its GatewaySubscribeRequest
+   * `subscription_id`). The stream must belong to the same subscriber.
+   *
+   * @generated from field: string subscription_id = 2;
+   */
+  subscriptionId: string;
+
+  /**
+   * @generated from field: repeated synclog.v1.SyncTarget add_targets = 3;
+   */
+  addTargets: SyncTarget[];
+
+  /**
+   * @generated from field: repeated synclog.v1.SyncTarget remove_targets = 4;
+   */
+  removeTargets: SyncTarget[];
+};
+
+/**
+ * @generated from message synclog.v1.ModifySubscriptionRequest
+ */
+export type ModifySubscriptionRequestJson = {
+  /**
+   * @generated from field: string subscriber_id = 1;
+   */
+  subscriberId?: string;
+
+  /**
+   * Identifies the live subscribe stream to mutate (its GatewaySubscribeRequest
+   * `subscription_id`). The stream must belong to the same subscriber.
+   *
+   * @generated from field: string subscription_id = 2;
+   */
+  subscriptionId?: string;
+
+  /**
+   * @generated from field: repeated synclog.v1.SyncTarget add_targets = 3;
+   */
+  addTargets?: SyncTargetJson[];
+
+  /**
+   * @generated from field: repeated synclog.v1.SyncTarget remove_targets = 4;
+   */
+  removeTargets?: SyncTargetJson[];
+};
+
+/**
+ * Describes the message synclog.v1.ModifySubscriptionRequest.
+ * Use `create(ModifySubscriptionRequestSchema)` to create a new message.
+ */
+export const ModifySubscriptionRequestSchema: GenMessage<ModifySubscriptionRequest, {jsonType: ModifySubscriptionRequestJson}> = /*@__PURE__*/
+  messageDesc(file_synclog_v1_gateway, 13);
+
+/**
+ * @generated from message synclog.v1.ModifySubscriptionResponse
+ */
+export type ModifySubscriptionResponse = Message<"synclog.v1.ModifySubscriptionResponse"> & {
+  /**
+   * Resolved state of accepted added targets (after resolution + authorization).
+   *
+   * @generated from field: repeated synclog.v1.TargetState added = 1;
+   */
+  added: TargetState[];
+
+  /**
+   * Targets rejected at add time; the stream and the other targets are intact.
+   *
+   * @generated from field: repeated synclog.v1.TargetRejection rejected = 2;
+   */
+  rejected: TargetRejection[];
+};
+
+/**
+ * @generated from message synclog.v1.ModifySubscriptionResponse
+ */
+export type ModifySubscriptionResponseJson = {
+  /**
+   * Resolved state of accepted added targets (after resolution + authorization).
+   *
+   * @generated from field: repeated synclog.v1.TargetState added = 1;
+   */
+  added?: TargetStateJson[];
+
+  /**
+   * Targets rejected at add time; the stream and the other targets are intact.
+   *
+   * @generated from field: repeated synclog.v1.TargetRejection rejected = 2;
+   */
+  rejected?: TargetRejectionJson[];
+};
+
+/**
+ * Describes the message synclog.v1.ModifySubscriptionResponse.
+ * Use `create(ModifySubscriptionResponseSchema)` to create a new message.
+ */
+export const ModifySubscriptionResponseSchema: GenMessage<ModifySubscriptionResponse, {jsonType: ModifySubscriptionResponseJson}> = /*@__PURE__*/
+  messageDesc(file_synclog_v1_gateway, 14);
 
 /**
  * @generated from message synclog.v1.GatewaySubscribeResponse
@@ -829,7 +1014,7 @@ export type GatewaySubscribeResponseJson = {
  * Use `create(GatewaySubscribeResponseSchema)` to create a new message.
  */
 export const GatewaySubscribeResponseSchema: GenMessage<GatewaySubscribeResponse, {jsonType: GatewaySubscribeResponseJson}> = /*@__PURE__*/
-  messageDesc(file_synclog_v1_gateway, 12);
+  messageDesc(file_synclog_v1_gateway, 15);
 
 /**
  * @generated from message synclog.v1.GatewayAckRequest
@@ -896,7 +1081,7 @@ export type GatewayAckRequestJson = {
  * Use `create(GatewayAckRequestSchema)` to create a new message.
  */
 export const GatewayAckRequestSchema: GenMessage<GatewayAckRequest, {jsonType: GatewayAckRequestJson}> = /*@__PURE__*/
-  messageDesc(file_synclog_v1_gateway, 13);
+  messageDesc(file_synclog_v1_gateway, 16);
 
 /**
  * @generated from message synclog.v1.GatewayAckResponse
@@ -923,7 +1108,7 @@ export type GatewayAckResponseJson = {
  * Use `create(GatewayAckResponseSchema)` to create a new message.
  */
 export const GatewayAckResponseSchema: GenMessage<GatewayAckResponse, {jsonType: GatewayAckResponseJson}> = /*@__PURE__*/
-  messageDesc(file_synclog_v1_gateway, 14);
+  messageDesc(file_synclog_v1_gateway, 17);
 
 /**
  * @generated from message synclog.v1.GatewayGetLatestSnapshotRequest
@@ -990,7 +1175,7 @@ export type GatewayGetLatestSnapshotRequestJson = {
  * Use `create(GatewayGetLatestSnapshotRequestSchema)` to create a new message.
  */
 export const GatewayGetLatestSnapshotRequestSchema: GenMessage<GatewayGetLatestSnapshotRequest, {jsonType: GatewayGetLatestSnapshotRequestJson}> = /*@__PURE__*/
-  messageDesc(file_synclog_v1_gateway, 15);
+  messageDesc(file_synclog_v1_gateway, 18);
 
 /**
  * @generated from message synclog.v1.GatewayGetLatestSnapshotResponse
@@ -1027,7 +1212,7 @@ export type GatewayGetLatestSnapshotResponseJson = {
  * Use `create(GatewayGetLatestSnapshotResponseSchema)` to create a new message.
  */
 export const GatewayGetLatestSnapshotResponseSchema: GenMessage<GatewayGetLatestSnapshotResponse, {jsonType: GatewayGetLatestSnapshotResponseJson}> = /*@__PURE__*/
-  messageDesc(file_synclog_v1_gateway, 16);
+  messageDesc(file_synclog_v1_gateway, 19);
 
 /**
  * SyncGatewayService is an embeddable, generic public sync facade over the raw
@@ -1066,6 +1251,19 @@ export const SyncGatewayService: GenService<{
     methodKind: "server_streaming";
     input: typeof GatewaySubscribeRequestSchema;
     output: typeof GatewaySubscribeResponseSchema;
+  },
+  /**
+   * ModifySubscription adds/removes targets on a live subscribe stream without
+   * tearing it down. Added targets get their per-target catch-up then live-tail
+   * injected into the existing stream; removed targets stop flowing. Addressed
+   * by `subscription_id` (set on the GatewaySubscribeRequest that opened it).
+   *
+   * @generated from rpc synclog.v1.SyncGatewayService.ModifySubscription
+   */
+  modifySubscription: {
+    methodKind: "unary";
+    input: typeof ModifySubscriptionRequestSchema;
+    output: typeof ModifySubscriptionResponseSchema;
   },
   /**
    * Ack advances the subscriber cursor for one target after contiguous apply.

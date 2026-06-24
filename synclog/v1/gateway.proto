@@ -80,6 +80,11 @@ service SyncGatewayService {
   rpc GatewayCatchUp(GatewayCatchUpRequest) returns (GatewayCatchUpResponse);
   // Subscribe live-tails multiple targets over one stream.
   rpc GatewaySubscribe(GatewaySubscribeRequest) returns (stream GatewaySubscribeResponse);
+  // ModifySubscription adds/removes targets on a live subscribe stream without
+  // tearing it down. Added targets get their per-target catch-up then live-tail
+  // injected into the existing stream; removed targets stop flowing. Addressed
+  // by `subscription_id` (set on the GatewaySubscribeRequest that opened it).
+  rpc ModifySubscription(ModifySubscriptionRequest) returns (ModifySubscriptionResponse);
   // Ack advances the subscriber cursor for one target after contiguous apply.
   rpc GatewayAck(GatewayAckRequest) returns (GatewayAckResponse);
   // GetLatestSnapshot returns the newest compatible snapshot for one target.
@@ -119,6 +124,36 @@ message GatewaySubscribeRequest {
   repeated SyncTarget targets = 2;
   uint32 batch_limit_per_target = 3;
   uint32 max_in_flight_per_target = 4;
+  // Client-chosen stable id addressing this live stream for ModifySubscription.
+  // Optional: leave empty to opt out of incremental add/remove for this stream.
+  // Must be unique among the subscriber's concurrently active subscribe streams.
+  string subscription_id = 5;
+}
+
+// TargetRejection reports a target that could not be accepted (resolution or
+// authorization failure). Rejecting one target never fails the whole call: the
+// remaining targets are still applied, isolating per-target failures.
+message TargetRejection {
+  SyncTarget target = 1;
+  // gRPC-style code string, e.g. "PERMISSION_DENIED", "INVALID_ARGUMENT".
+  string code = 2;
+  string message = 3;
+}
+
+message ModifySubscriptionRequest {
+  string subscriber_id = 1;
+  // Identifies the live subscribe stream to mutate (its GatewaySubscribeRequest
+  // `subscription_id`). The stream must belong to the same subscriber.
+  string subscription_id = 2;
+  repeated SyncTarget add_targets = 3;
+  repeated SyncTarget remove_targets = 4;
+}
+
+message ModifySubscriptionResponse {
+  // Resolved state of accepted added targets (after resolution + authorization).
+  repeated TargetState added = 1;
+  // Targets rejected at add time; the stream and the other targets are intact.
+  repeated TargetRejection rejected = 2;
 }
 
 message GatewaySubscribeResponse {

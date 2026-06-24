@@ -3,6 +3,7 @@ import type {
   GatewayCatchUpResult,
   GatewayEvent,
   GatewaySubscribeResponse,
+  ModifySubscriptionResponse,
   SyncTarget,
 } from "./proto/synclog/v1/gateway_pb.js";
 import { CatchUpStatus } from "./proto/synclog/v1/service_pb.js";
@@ -27,6 +28,10 @@ export type SyncBinding<TSnapshot, TEvent> = {
   store: ProjectionStore<TSnapshot, TEvent>;
   limitPerTarget?: number;
   totalLimitPerTarget?: number;
+  // Stable id that makes this subscription's live stream addressable by
+  // modifySubscription, letting targets be added/removed without a teardown.
+  // Must be unique among the subscriber's concurrently active streams.
+  subscriptionId?: string;
 };
 
 export type SyncClientOptions = {
@@ -75,6 +80,27 @@ export class SyncClient {
     await this.#transport.open({
       subscriberId: this.#subscriberId,
       targets,
+    } as never);
+  }
+
+  // Adds and/or removes targets on a live subscribe stream without tearing it
+  // down. `subscriptionId` must match the one a subscribe() binding was opened
+  // with. Added targets are resolved and authorized server-side; rejected ones
+  // are returned in `rejected` (the stream and other targets stay intact). The
+  // caller is responsible for starting/stopping the matching subscribe() loops
+  // for the targets it adds or removes.
+  async modifySubscription(
+    subscriptionId: string,
+    changes: { addTargets?: SyncTarget[]; removeTargets?: SyncTarget[] },
+  ): Promise<ModifySubscriptionResponse> {
+    if (!subscriptionId) {
+      throw new Error("subscriptionId is required");
+    }
+    return this.#transport.modifySubscription({
+      subscriberId: this.#subscriberId,
+      subscriptionId,
+      addTargets: changes.addTargets ?? [],
+      removeTargets: changes.removeTargets ?? [],
     } as never);
   }
 
@@ -168,6 +194,7 @@ export class SyncClient {
         targets: [binding.target],
         batchLimitPerTarget: binding.limitPerTarget ?? this.#batchLimitPerTarget,
         maxInFlightPerTarget: this.#maxInFlightPerTarget,
+        subscriptionId: binding.subscriptionId ?? "",
       } as never,
       signal,
     );

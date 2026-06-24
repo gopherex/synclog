@@ -803,8 +803,12 @@ type GatewaySubscribeRequest struct {
 	Targets              []*SyncTarget          `protobuf:"bytes,2,rep,name=targets,proto3" json:"targets,omitempty"`
 	BatchLimitPerTarget  uint32                 `protobuf:"varint,3,opt,name=batch_limit_per_target,json=batchLimitPerTarget,proto3" json:"batch_limit_per_target,omitempty"`
 	MaxInFlightPerTarget uint32                 `protobuf:"varint,4,opt,name=max_in_flight_per_target,json=maxInFlightPerTarget,proto3" json:"max_in_flight_per_target,omitempty"`
-	unknownFields        protoimpl.UnknownFields
-	sizeCache            protoimpl.SizeCache
+	// Client-chosen stable id addressing this live stream for ModifySubscription.
+	// Optional: leave empty to opt out of incremental add/remove for this stream.
+	// Must be unique among the subscriber's concurrently active subscribe streams.
+	SubscriptionId string `protobuf:"bytes,5,opt,name=subscription_id,json=subscriptionId,proto3" json:"subscription_id,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
 }
 
 func (x *GatewaySubscribeRequest) Reset() {
@@ -865,6 +869,201 @@ func (x *GatewaySubscribeRequest) GetMaxInFlightPerTarget() uint32 {
 	return 0
 }
 
+func (x *GatewaySubscribeRequest) GetSubscriptionId() string {
+	if x != nil {
+		return x.SubscriptionId
+	}
+	return ""
+}
+
+// TargetRejection reports a target that could not be accepted (resolution or
+// authorization failure). Rejecting one target never fails the whole call: the
+// remaining targets are still applied, isolating per-target failures.
+type TargetRejection struct {
+	state  protoimpl.MessageState `protogen:"open.v1"`
+	Target *SyncTarget            `protobuf:"bytes,1,opt,name=target,proto3" json:"target,omitempty"`
+	// gRPC-style code string, e.g. "PERMISSION_DENIED", "INVALID_ARGUMENT".
+	Code          string `protobuf:"bytes,2,opt,name=code,proto3" json:"code,omitempty"`
+	Message       string `protobuf:"bytes,3,opt,name=message,proto3" json:"message,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *TargetRejection) Reset() {
+	*x = TargetRejection{}
+	mi := &file_synclog_v1_gateway_proto_msgTypes[12]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *TargetRejection) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*TargetRejection) ProtoMessage() {}
+
+func (x *TargetRejection) ProtoReflect() protoreflect.Message {
+	mi := &file_synclog_v1_gateway_proto_msgTypes[12]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use TargetRejection.ProtoReflect.Descriptor instead.
+func (*TargetRejection) Descriptor() ([]byte, []int) {
+	return file_synclog_v1_gateway_proto_rawDescGZIP(), []int{12}
+}
+
+func (x *TargetRejection) GetTarget() *SyncTarget {
+	if x != nil {
+		return x.Target
+	}
+	return nil
+}
+
+func (x *TargetRejection) GetCode() string {
+	if x != nil {
+		return x.Code
+	}
+	return ""
+}
+
+func (x *TargetRejection) GetMessage() string {
+	if x != nil {
+		return x.Message
+	}
+	return ""
+}
+
+type ModifySubscriptionRequest struct {
+	state        protoimpl.MessageState `protogen:"open.v1"`
+	SubscriberId string                 `protobuf:"bytes,1,opt,name=subscriber_id,json=subscriberId,proto3" json:"subscriber_id,omitempty"`
+	// Identifies the live subscribe stream to mutate (its GatewaySubscribeRequest
+	// `subscription_id`). The stream must belong to the same subscriber.
+	SubscriptionId string        `protobuf:"bytes,2,opt,name=subscription_id,json=subscriptionId,proto3" json:"subscription_id,omitempty"`
+	AddTargets     []*SyncTarget `protobuf:"bytes,3,rep,name=add_targets,json=addTargets,proto3" json:"add_targets,omitempty"`
+	RemoveTargets  []*SyncTarget `protobuf:"bytes,4,rep,name=remove_targets,json=removeTargets,proto3" json:"remove_targets,omitempty"`
+	unknownFields  protoimpl.UnknownFields
+	sizeCache      protoimpl.SizeCache
+}
+
+func (x *ModifySubscriptionRequest) Reset() {
+	*x = ModifySubscriptionRequest{}
+	mi := &file_synclog_v1_gateway_proto_msgTypes[13]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ModifySubscriptionRequest) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ModifySubscriptionRequest) ProtoMessage() {}
+
+func (x *ModifySubscriptionRequest) ProtoReflect() protoreflect.Message {
+	mi := &file_synclog_v1_gateway_proto_msgTypes[13]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ModifySubscriptionRequest.ProtoReflect.Descriptor instead.
+func (*ModifySubscriptionRequest) Descriptor() ([]byte, []int) {
+	return file_synclog_v1_gateway_proto_rawDescGZIP(), []int{13}
+}
+
+func (x *ModifySubscriptionRequest) GetSubscriberId() string {
+	if x != nil {
+		return x.SubscriberId
+	}
+	return ""
+}
+
+func (x *ModifySubscriptionRequest) GetSubscriptionId() string {
+	if x != nil {
+		return x.SubscriptionId
+	}
+	return ""
+}
+
+func (x *ModifySubscriptionRequest) GetAddTargets() []*SyncTarget {
+	if x != nil {
+		return x.AddTargets
+	}
+	return nil
+}
+
+func (x *ModifySubscriptionRequest) GetRemoveTargets() []*SyncTarget {
+	if x != nil {
+		return x.RemoveTargets
+	}
+	return nil
+}
+
+type ModifySubscriptionResponse struct {
+	state protoimpl.MessageState `protogen:"open.v1"`
+	// Resolved state of accepted added targets (after resolution + authorization).
+	Added []*TargetState `protobuf:"bytes,1,rep,name=added,proto3" json:"added,omitempty"`
+	// Targets rejected at add time; the stream and the other targets are intact.
+	Rejected      []*TargetRejection `protobuf:"bytes,2,rep,name=rejected,proto3" json:"rejected,omitempty"`
+	unknownFields protoimpl.UnknownFields
+	sizeCache     protoimpl.SizeCache
+}
+
+func (x *ModifySubscriptionResponse) Reset() {
+	*x = ModifySubscriptionResponse{}
+	mi := &file_synclog_v1_gateway_proto_msgTypes[14]
+	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+	ms.StoreMessageInfo(mi)
+}
+
+func (x *ModifySubscriptionResponse) String() string {
+	return protoimpl.X.MessageStringOf(x)
+}
+
+func (*ModifySubscriptionResponse) ProtoMessage() {}
+
+func (x *ModifySubscriptionResponse) ProtoReflect() protoreflect.Message {
+	mi := &file_synclog_v1_gateway_proto_msgTypes[14]
+	if x != nil {
+		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
+		if ms.LoadMessageInfo() == nil {
+			ms.StoreMessageInfo(mi)
+		}
+		return ms
+	}
+	return mi.MessageOf(x)
+}
+
+// Deprecated: Use ModifySubscriptionResponse.ProtoReflect.Descriptor instead.
+func (*ModifySubscriptionResponse) Descriptor() ([]byte, []int) {
+	return file_synclog_v1_gateway_proto_rawDescGZIP(), []int{14}
+}
+
+func (x *ModifySubscriptionResponse) GetAdded() []*TargetState {
+	if x != nil {
+		return x.Added
+	}
+	return nil
+}
+
+func (x *ModifySubscriptionResponse) GetRejected() []*TargetRejection {
+	if x != nil {
+		return x.Rejected
+	}
+	return nil
+}
+
 type GatewaySubscribeResponse struct {
 	state            protoimpl.MessageState `protogen:"open.v1"`
 	Status           CatchUpStatus          `protobuf:"varint,1,opt,name=status,proto3,enum=synclog.v1.CatchUpStatus" json:"status,omitempty"`
@@ -879,7 +1078,7 @@ type GatewaySubscribeResponse struct {
 
 func (x *GatewaySubscribeResponse) Reset() {
 	*x = GatewaySubscribeResponse{}
-	mi := &file_synclog_v1_gateway_proto_msgTypes[12]
+	mi := &file_synclog_v1_gateway_proto_msgTypes[15]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -891,7 +1090,7 @@ func (x *GatewaySubscribeResponse) String() string {
 func (*GatewaySubscribeResponse) ProtoMessage() {}
 
 func (x *GatewaySubscribeResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_synclog_v1_gateway_proto_msgTypes[12]
+	mi := &file_synclog_v1_gateway_proto_msgTypes[15]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -904,7 +1103,7 @@ func (x *GatewaySubscribeResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GatewaySubscribeResponse.ProtoReflect.Descriptor instead.
 func (*GatewaySubscribeResponse) Descriptor() ([]byte, []int) {
-	return file_synclog_v1_gateway_proto_rawDescGZIP(), []int{12}
+	return file_synclog_v1_gateway_proto_rawDescGZIP(), []int{15}
 }
 
 func (x *GatewaySubscribeResponse) GetStatus() CatchUpStatus {
@@ -962,7 +1161,7 @@ type GatewayAckRequest struct {
 
 func (x *GatewayAckRequest) Reset() {
 	*x = GatewayAckRequest{}
-	mi := &file_synclog_v1_gateway_proto_msgTypes[13]
+	mi := &file_synclog_v1_gateway_proto_msgTypes[16]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -974,7 +1173,7 @@ func (x *GatewayAckRequest) String() string {
 func (*GatewayAckRequest) ProtoMessage() {}
 
 func (x *GatewayAckRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_synclog_v1_gateway_proto_msgTypes[13]
+	mi := &file_synclog_v1_gateway_proto_msgTypes[16]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -987,7 +1186,7 @@ func (x *GatewayAckRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GatewayAckRequest.ProtoReflect.Descriptor instead.
 func (*GatewayAckRequest) Descriptor() ([]byte, []int) {
-	return file_synclog_v1_gateway_proto_rawDescGZIP(), []int{13}
+	return file_synclog_v1_gateway_proto_rawDescGZIP(), []int{16}
 }
 
 func (x *GatewayAckRequest) GetSubscriberId() string {
@@ -1034,7 +1233,7 @@ type GatewayAckResponse struct {
 
 func (x *GatewayAckResponse) Reset() {
 	*x = GatewayAckResponse{}
-	mi := &file_synclog_v1_gateway_proto_msgTypes[14]
+	mi := &file_synclog_v1_gateway_proto_msgTypes[17]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1046,7 +1245,7 @@ func (x *GatewayAckResponse) String() string {
 func (*GatewayAckResponse) ProtoMessage() {}
 
 func (x *GatewayAckResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_synclog_v1_gateway_proto_msgTypes[14]
+	mi := &file_synclog_v1_gateway_proto_msgTypes[17]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1059,7 +1258,7 @@ func (x *GatewayAckResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GatewayAckResponse.ProtoReflect.Descriptor instead.
 func (*GatewayAckResponse) Descriptor() ([]byte, []int) {
-	return file_synclog_v1_gateway_proto_rawDescGZIP(), []int{14}
+	return file_synclog_v1_gateway_proto_rawDescGZIP(), []int{17}
 }
 
 func (x *GatewayAckResponse) GetState() *TargetState {
@@ -1082,7 +1281,7 @@ type GatewayGetLatestSnapshotRequest struct {
 
 func (x *GatewayGetLatestSnapshotRequest) Reset() {
 	*x = GatewayGetLatestSnapshotRequest{}
-	mi := &file_synclog_v1_gateway_proto_msgTypes[15]
+	mi := &file_synclog_v1_gateway_proto_msgTypes[18]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1094,7 +1293,7 @@ func (x *GatewayGetLatestSnapshotRequest) String() string {
 func (*GatewayGetLatestSnapshotRequest) ProtoMessage() {}
 
 func (x *GatewayGetLatestSnapshotRequest) ProtoReflect() protoreflect.Message {
-	mi := &file_synclog_v1_gateway_proto_msgTypes[15]
+	mi := &file_synclog_v1_gateway_proto_msgTypes[18]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1107,7 +1306,7 @@ func (x *GatewayGetLatestSnapshotRequest) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GatewayGetLatestSnapshotRequest.ProtoReflect.Descriptor instead.
 func (*GatewayGetLatestSnapshotRequest) Descriptor() ([]byte, []int) {
-	return file_synclog_v1_gateway_proto_rawDescGZIP(), []int{15}
+	return file_synclog_v1_gateway_proto_rawDescGZIP(), []int{18}
 }
 
 func (x *GatewayGetLatestSnapshotRequest) GetSubscriberId() string {
@@ -1155,7 +1354,7 @@ type GatewayGetLatestSnapshotResponse struct {
 
 func (x *GatewayGetLatestSnapshotResponse) Reset() {
 	*x = GatewayGetLatestSnapshotResponse{}
-	mi := &file_synclog_v1_gateway_proto_msgTypes[16]
+	mi := &file_synclog_v1_gateway_proto_msgTypes[19]
 	ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 	ms.StoreMessageInfo(mi)
 }
@@ -1167,7 +1366,7 @@ func (x *GatewayGetLatestSnapshotResponse) String() string {
 func (*GatewayGetLatestSnapshotResponse) ProtoMessage() {}
 
 func (x *GatewayGetLatestSnapshotResponse) ProtoReflect() protoreflect.Message {
-	mi := &file_synclog_v1_gateway_proto_msgTypes[16]
+	mi := &file_synclog_v1_gateway_proto_msgTypes[19]
 	if x != nil {
 		ms := protoimpl.X.MessageStateOf(protoimpl.Pointer(x))
 		if ms.LoadMessageInfo() == nil {
@@ -1180,7 +1379,7 @@ func (x *GatewayGetLatestSnapshotResponse) ProtoReflect() protoreflect.Message {
 
 // Deprecated: Use GatewayGetLatestSnapshotResponse.ProtoReflect.Descriptor instead.
 func (*GatewayGetLatestSnapshotResponse) Descriptor() ([]byte, []int) {
-	return file_synclog_v1_gateway_proto_rawDescGZIP(), []int{16}
+	return file_synclog_v1_gateway_proto_rawDescGZIP(), []int{19}
 }
 
 func (x *GatewayGetLatestSnapshotResponse) GetSnapshot() *GatewaySnapshot {
@@ -1267,12 +1466,26 @@ const file_synclog_v1_gateway_proto_rawDesc = "" +
 	"\vbinding_key\x18\x05 \x01(\tR\n" +
 	"bindingKey\"T\n" +
 	"\x16GatewayCatchUpResponse\x12:\n" +
-	"\aresults\x18\x01 \x03(\v2 .synclog.v1.GatewayCatchUpResultR\aresults\"\xdd\x01\n" +
+	"\aresults\x18\x01 \x03(\v2 .synclog.v1.GatewayCatchUpResultR\aresults\"\x86\x02\n" +
 	"\x17GatewaySubscribeRequest\x12#\n" +
 	"\rsubscriber_id\x18\x01 \x01(\tR\fsubscriberId\x120\n" +
 	"\atargets\x18\x02 \x03(\v2\x16.synclog.v1.SyncTargetR\atargets\x123\n" +
 	"\x16batch_limit_per_target\x18\x03 \x01(\rR\x13batchLimitPerTarget\x126\n" +
-	"\x18max_in_flight_per_target\x18\x04 \x01(\rR\x14maxInFlightPerTarget\"\x9a\x02\n" +
+	"\x18max_in_flight_per_target\x18\x04 \x01(\rR\x14maxInFlightPerTarget\x12'\n" +
+	"\x0fsubscription_id\x18\x05 \x01(\tR\x0esubscriptionId\"o\n" +
+	"\x0fTargetRejection\x12.\n" +
+	"\x06target\x18\x01 \x01(\v2\x16.synclog.v1.SyncTargetR\x06target\x12\x12\n" +
+	"\x04code\x18\x02 \x01(\tR\x04code\x12\x18\n" +
+	"\amessage\x18\x03 \x01(\tR\amessage\"\xe1\x01\n" +
+	"\x19ModifySubscriptionRequest\x12#\n" +
+	"\rsubscriber_id\x18\x01 \x01(\tR\fsubscriberId\x12'\n" +
+	"\x0fsubscription_id\x18\x02 \x01(\tR\x0esubscriptionId\x127\n" +
+	"\vadd_targets\x18\x03 \x03(\v2\x16.synclog.v1.SyncTargetR\n" +
+	"addTargets\x12=\n" +
+	"\x0eremove_targets\x18\x04 \x03(\v2\x16.synclog.v1.SyncTargetR\rremoveTargets\"\x84\x01\n" +
+	"\x1aModifySubscriptionResponse\x12-\n" +
+	"\x05added\x18\x01 \x03(\v2\x17.synclog.v1.TargetStateR\x05added\x127\n" +
+	"\brejected\x18\x02 \x03(\v2\x1b.synclog.v1.TargetRejectionR\brejected\"\x9a\x02\n" +
 	"\x18GatewaySubscribeResponse\x121\n" +
 	"\x06status\x18\x01 \x01(\x0e2\x19.synclog.v1.CatchUpStatusR\x06status\x12.\n" +
 	"\x05batch\x18\x02 \x01(\v2\x18.synclog.v1.GatewayBatchR\x05batch\x12-\n" +
@@ -1299,11 +1512,12 @@ const file_synclog_v1_gateway_proto_rawDesc = "" +
 	"bindingKey\"\x8a\x01\n" +
 	" GatewayGetLatestSnapshotResponse\x127\n" +
 	"\bsnapshot\x18\x01 \x01(\v2\x1b.synclog.v1.GatewaySnapshotR\bsnapshot\x12-\n" +
-	"\x05state\x18\x02 \x01(\v2\x17.synclog.v1.TargetStateR\x05state2\xcd\x03\n" +
+	"\x05state\x18\x02 \x01(\v2\x17.synclog.v1.TargetStateR\x05state2\xb2\x04\n" +
 	"\x12SyncGatewayService\x129\n" +
 	"\x04Open\x12\x17.synclog.v1.OpenRequest\x1a\x18.synclog.v1.OpenResponse\x12W\n" +
 	"\x0eGatewayCatchUp\x12!.synclog.v1.GatewayCatchUpRequest\x1a\".synclog.v1.GatewayCatchUpResponse\x12_\n" +
-	"\x10GatewaySubscribe\x12#.synclog.v1.GatewaySubscribeRequest\x1a$.synclog.v1.GatewaySubscribeResponse0\x01\x12K\n" +
+	"\x10GatewaySubscribe\x12#.synclog.v1.GatewaySubscribeRequest\x1a$.synclog.v1.GatewaySubscribeResponse0\x01\x12c\n" +
+	"\x12ModifySubscription\x12%.synclog.v1.ModifySubscriptionRequest\x1a&.synclog.v1.ModifySubscriptionResponse\x12K\n" +
 	"\n" +
 	"GatewayAck\x12\x1d.synclog.v1.GatewayAckRequest\x1a\x1e.synclog.v1.GatewayAckResponse\x12u\n" +
 	"\x18GatewayGetLatestSnapshot\x12+.synclog.v1.GatewayGetLatestSnapshotRequest\x1a,.synclog.v1.GatewayGetLatestSnapshotResponseB<Z:github.com/gopherex/synclog/pkg/proto/synclog/v1;synclogv1b\x06proto3"
@@ -1320,7 +1534,7 @@ func file_synclog_v1_gateway_proto_rawDescGZIP() []byte {
 	return file_synclog_v1_gateway_proto_rawDescData
 }
 
-var file_synclog_v1_gateway_proto_msgTypes = make([]protoimpl.MessageInfo, 17)
+var file_synclog_v1_gateway_proto_msgTypes = make([]protoimpl.MessageInfo, 20)
 var file_synclog_v1_gateway_proto_goTypes = []any{
 	(*SyncTarget)(nil),                       // 0: synclog.v1.SyncTarget
 	(*TargetBindingState)(nil),               // 1: synclog.v1.TargetBindingState
@@ -1334,13 +1548,16 @@ var file_synclog_v1_gateway_proto_goTypes = []any{
 	(*GatewayCatchUpResult)(nil),             // 9: synclog.v1.GatewayCatchUpResult
 	(*GatewayCatchUpResponse)(nil),           // 10: synclog.v1.GatewayCatchUpResponse
 	(*GatewaySubscribeRequest)(nil),          // 11: synclog.v1.GatewaySubscribeRequest
-	(*GatewaySubscribeResponse)(nil),         // 12: synclog.v1.GatewaySubscribeResponse
-	(*GatewayAckRequest)(nil),                // 13: synclog.v1.GatewayAckRequest
-	(*GatewayAckResponse)(nil),               // 14: synclog.v1.GatewayAckResponse
-	(*GatewayGetLatestSnapshotRequest)(nil),  // 15: synclog.v1.GatewayGetLatestSnapshotRequest
-	(*GatewayGetLatestSnapshotResponse)(nil), // 16: synclog.v1.GatewayGetLatestSnapshotResponse
-	(SnapshotCompression)(0),                 // 17: synclog.v1.SnapshotCompression
-	(CatchUpStatus)(0),                       // 18: synclog.v1.CatchUpStatus
+	(*TargetRejection)(nil),                  // 12: synclog.v1.TargetRejection
+	(*ModifySubscriptionRequest)(nil),        // 13: synclog.v1.ModifySubscriptionRequest
+	(*ModifySubscriptionResponse)(nil),       // 14: synclog.v1.ModifySubscriptionResponse
+	(*GatewaySubscribeResponse)(nil),         // 15: synclog.v1.GatewaySubscribeResponse
+	(*GatewayAckRequest)(nil),                // 16: synclog.v1.GatewayAckRequest
+	(*GatewayAckResponse)(nil),               // 17: synclog.v1.GatewayAckResponse
+	(*GatewayGetLatestSnapshotRequest)(nil),  // 18: synclog.v1.GatewayGetLatestSnapshotRequest
+	(*GatewayGetLatestSnapshotResponse)(nil), // 19: synclog.v1.GatewayGetLatestSnapshotResponse
+	(SnapshotCompression)(0),                 // 20: synclog.v1.SnapshotCompression
+	(CatchUpStatus)(0),                       // 21: synclog.v1.CatchUpStatus
 }
 var file_synclog_v1_gateway_proto_depIdxs = []int32{
 	0,  // 0: synclog.v1.TargetState.target:type_name -> synclog.v1.SyncTarget
@@ -1349,39 +1566,46 @@ var file_synclog_v1_gateway_proto_depIdxs = []int32{
 	0,  // 3: synclog.v1.GatewayBatch.target:type_name -> synclog.v1.SyncTarget
 	3,  // 4: synclog.v1.GatewayBatch.events:type_name -> synclog.v1.GatewayEvent
 	0,  // 5: synclog.v1.GatewaySnapshot.target:type_name -> synclog.v1.SyncTarget
-	17, // 6: synclog.v1.GatewaySnapshot.compression:type_name -> synclog.v1.SnapshotCompression
+	20, // 6: synclog.v1.GatewaySnapshot.compression:type_name -> synclog.v1.SnapshotCompression
 	0,  // 7: synclog.v1.OpenRequest.targets:type_name -> synclog.v1.SyncTarget
 	2,  // 8: synclog.v1.OpenResponse.targets:type_name -> synclog.v1.TargetState
 	0,  // 9: synclog.v1.GatewayCatchUpRequest.targets:type_name -> synclog.v1.SyncTarget
 	0,  // 10: synclog.v1.GatewayCatchUpResult.target:type_name -> synclog.v1.SyncTarget
-	18, // 11: synclog.v1.GatewayCatchUpResult.status:type_name -> synclog.v1.CatchUpStatus
+	21, // 11: synclog.v1.GatewayCatchUpResult.status:type_name -> synclog.v1.CatchUpStatus
 	4,  // 12: synclog.v1.GatewayCatchUpResult.batch:type_name -> synclog.v1.GatewayBatch
 	2,  // 13: synclog.v1.GatewayCatchUpResult.state:type_name -> synclog.v1.TargetState
 	9,  // 14: synclog.v1.GatewayCatchUpResponse.results:type_name -> synclog.v1.GatewayCatchUpResult
 	0,  // 15: synclog.v1.GatewaySubscribeRequest.targets:type_name -> synclog.v1.SyncTarget
-	18, // 16: synclog.v1.GatewaySubscribeResponse.status:type_name -> synclog.v1.CatchUpStatus
-	4,  // 17: synclog.v1.GatewaySubscribeResponse.batch:type_name -> synclog.v1.GatewayBatch
-	2,  // 18: synclog.v1.GatewaySubscribeResponse.state:type_name -> synclog.v1.TargetState
-	0,  // 19: synclog.v1.GatewayAckRequest.target:type_name -> synclog.v1.SyncTarget
-	2,  // 20: synclog.v1.GatewayAckResponse.state:type_name -> synclog.v1.TargetState
-	0,  // 21: synclog.v1.GatewayGetLatestSnapshotRequest.target:type_name -> synclog.v1.SyncTarget
-	5,  // 22: synclog.v1.GatewayGetLatestSnapshotResponse.snapshot:type_name -> synclog.v1.GatewaySnapshot
-	2,  // 23: synclog.v1.GatewayGetLatestSnapshotResponse.state:type_name -> synclog.v1.TargetState
-	6,  // 24: synclog.v1.SyncGatewayService.Open:input_type -> synclog.v1.OpenRequest
-	8,  // 25: synclog.v1.SyncGatewayService.GatewayCatchUp:input_type -> synclog.v1.GatewayCatchUpRequest
-	11, // 26: synclog.v1.SyncGatewayService.GatewaySubscribe:input_type -> synclog.v1.GatewaySubscribeRequest
-	13, // 27: synclog.v1.SyncGatewayService.GatewayAck:input_type -> synclog.v1.GatewayAckRequest
-	15, // 28: synclog.v1.SyncGatewayService.GatewayGetLatestSnapshot:input_type -> synclog.v1.GatewayGetLatestSnapshotRequest
-	7,  // 29: synclog.v1.SyncGatewayService.Open:output_type -> synclog.v1.OpenResponse
-	10, // 30: synclog.v1.SyncGatewayService.GatewayCatchUp:output_type -> synclog.v1.GatewayCatchUpResponse
-	12, // 31: synclog.v1.SyncGatewayService.GatewaySubscribe:output_type -> synclog.v1.GatewaySubscribeResponse
-	14, // 32: synclog.v1.SyncGatewayService.GatewayAck:output_type -> synclog.v1.GatewayAckResponse
-	16, // 33: synclog.v1.SyncGatewayService.GatewayGetLatestSnapshot:output_type -> synclog.v1.GatewayGetLatestSnapshotResponse
-	29, // [29:34] is the sub-list for method output_type
-	24, // [24:29] is the sub-list for method input_type
-	24, // [24:24] is the sub-list for extension type_name
-	24, // [24:24] is the sub-list for extension extendee
-	0,  // [0:24] is the sub-list for field type_name
+	0,  // 16: synclog.v1.TargetRejection.target:type_name -> synclog.v1.SyncTarget
+	0,  // 17: synclog.v1.ModifySubscriptionRequest.add_targets:type_name -> synclog.v1.SyncTarget
+	0,  // 18: synclog.v1.ModifySubscriptionRequest.remove_targets:type_name -> synclog.v1.SyncTarget
+	2,  // 19: synclog.v1.ModifySubscriptionResponse.added:type_name -> synclog.v1.TargetState
+	12, // 20: synclog.v1.ModifySubscriptionResponse.rejected:type_name -> synclog.v1.TargetRejection
+	21, // 21: synclog.v1.GatewaySubscribeResponse.status:type_name -> synclog.v1.CatchUpStatus
+	4,  // 22: synclog.v1.GatewaySubscribeResponse.batch:type_name -> synclog.v1.GatewayBatch
+	2,  // 23: synclog.v1.GatewaySubscribeResponse.state:type_name -> synclog.v1.TargetState
+	0,  // 24: synclog.v1.GatewayAckRequest.target:type_name -> synclog.v1.SyncTarget
+	2,  // 25: synclog.v1.GatewayAckResponse.state:type_name -> synclog.v1.TargetState
+	0,  // 26: synclog.v1.GatewayGetLatestSnapshotRequest.target:type_name -> synclog.v1.SyncTarget
+	5,  // 27: synclog.v1.GatewayGetLatestSnapshotResponse.snapshot:type_name -> synclog.v1.GatewaySnapshot
+	2,  // 28: synclog.v1.GatewayGetLatestSnapshotResponse.state:type_name -> synclog.v1.TargetState
+	6,  // 29: synclog.v1.SyncGatewayService.Open:input_type -> synclog.v1.OpenRequest
+	8,  // 30: synclog.v1.SyncGatewayService.GatewayCatchUp:input_type -> synclog.v1.GatewayCatchUpRequest
+	11, // 31: synclog.v1.SyncGatewayService.GatewaySubscribe:input_type -> synclog.v1.GatewaySubscribeRequest
+	13, // 32: synclog.v1.SyncGatewayService.ModifySubscription:input_type -> synclog.v1.ModifySubscriptionRequest
+	16, // 33: synclog.v1.SyncGatewayService.GatewayAck:input_type -> synclog.v1.GatewayAckRequest
+	18, // 34: synclog.v1.SyncGatewayService.GatewayGetLatestSnapshot:input_type -> synclog.v1.GatewayGetLatestSnapshotRequest
+	7,  // 35: synclog.v1.SyncGatewayService.Open:output_type -> synclog.v1.OpenResponse
+	10, // 36: synclog.v1.SyncGatewayService.GatewayCatchUp:output_type -> synclog.v1.GatewayCatchUpResponse
+	15, // 37: synclog.v1.SyncGatewayService.GatewaySubscribe:output_type -> synclog.v1.GatewaySubscribeResponse
+	14, // 38: synclog.v1.SyncGatewayService.ModifySubscription:output_type -> synclog.v1.ModifySubscriptionResponse
+	17, // 39: synclog.v1.SyncGatewayService.GatewayAck:output_type -> synclog.v1.GatewayAckResponse
+	19, // 40: synclog.v1.SyncGatewayService.GatewayGetLatestSnapshot:output_type -> synclog.v1.GatewayGetLatestSnapshotResponse
+	35, // [35:41] is the sub-list for method output_type
+	29, // [29:35] is the sub-list for method input_type
+	29, // [29:29] is the sub-list for extension type_name
+	29, // [29:29] is the sub-list for extension extendee
+	0,  // [0:29] is the sub-list for field type_name
 }
 
 func init() { file_synclog_v1_gateway_proto_init() }
@@ -1397,7 +1621,7 @@ func file_synclog_v1_gateway_proto_init() {
 			GoPackagePath: reflect.TypeOf(x{}).PkgPath(),
 			RawDescriptor: unsafe.Slice(unsafe.StringData(file_synclog_v1_gateway_proto_rawDesc), len(file_synclog_v1_gateway_proto_rawDesc)),
 			NumEnums:      0,
-			NumMessages:   17,
+			NumMessages:   20,
 			NumExtensions: 0,
 			NumServices:   1,
 		},

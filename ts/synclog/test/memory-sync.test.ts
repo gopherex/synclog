@@ -12,6 +12,8 @@ import {
   type GatewaySubscribeRequest,
   type GatewaySubscribeResponse,
   type GatewayEvent,
+  type ModifySubscriptionRequest,
+  type ModifySubscriptionResponse,
   type OpenRequest,
   type OpenResponse,
   type SyncGatewayTransport,
@@ -206,6 +208,12 @@ class FakeTransport implements SyncGatewayTransport {
   ): AsyncIterable<GatewaySubscribeResponse> {
     return;
   }
+
+  async modifySubscription(
+    _req: ModifySubscriptionRequest,
+  ): Promise<ModifySubscriptionResponse> {
+    throw new Error("unexpected modifySubscription call");
+  }
 }
 
 function stringProjection(snapshotType: string) {
@@ -302,8 +310,54 @@ async function testSubscribeAppliesLiveEventsAndStops(): Promise<void> {
   assert.equal(transport.subscribeAborted, true);
 }
 
+async function testModifySubscriptionForwardsTargets(): Promise<void> {
+  const target = pb<SyncTarget>({
+    namespace: "project_tasks",
+    id: "777",
+    view: "default",
+  });
+  const added = pb<SyncTarget>({
+    namespace: "project_tasks",
+    id: "888",
+    view: "default",
+  });
+  const transport = new LiveTransport([]);
+  const store = new MemorySyncStore<string, string>();
+  const client = new SyncClient({ subscriberId: "sub:1", transport });
+
+  const subscription = client.subscribe({
+    target,
+    projection: stringProjection("project_tasks.snapshot"),
+    store,
+    subscriptionId: "live:1",
+  });
+  await transport.applied;
+
+  // subscribe() must carry the subscription_id so the stream is addressable.
+  assert.equal(transport.lastSubscribeReq?.subscriptionId, "live:1");
+
+  await client.modifySubscription("live:1", { addTargets: [added] });
+
+  assert.equal(transport.modifies.length, 1);
+  const modify = transport.modifies[0];
+  assert.equal(modify.subscriberId, "sub:1");
+  assert.equal(modify.subscriptionId, "live:1");
+  assert.deepEqual(
+    modify.addTargets.map((t) => t.id),
+    ["888"],
+  );
+
+  // modifySubscription without a subscription id is a programming error.
+  await assert.rejects(() => client.modifySubscription("", { addTargets: [added] }));
+
+  subscription.stop();
+  await subscription.done;
+}
+
 class LiveTransport implements SyncGatewayTransport {
   readonly acks: GatewayAckRequest[] = [];
+  readonly modifies: ModifySubscriptionRequest[] = [];
+  lastSubscribeReq?: GatewaySubscribeRequest;
   subscribeAborted = false;
   readonly applied: Promise<void>;
   #resolveApplied!: () => void;
@@ -337,10 +391,18 @@ class LiveTransport implements SyncGatewayTransport {
     throw new Error("unexpected getLatestSnapshot call");
   }
 
+  async modifySubscription(
+    req: ModifySubscriptionRequest,
+  ): Promise<ModifySubscriptionResponse> {
+    this.modifies.push(req);
+    return pb<ModifySubscriptionResponse>({ added: [], rejected: [] });
+  }
+
   async *subscribe(
-    _req: GatewaySubscribeRequest,
+    req: GatewaySubscribeRequest,
     signal?: AbortSignal,
   ): AsyncIterable<GatewaySubscribeResponse> {
+    this.lastSubscribeReq = req;
     try {
       for (const resp of this.#responses) {
         yield resp;
@@ -363,3 +425,4 @@ class LiveTransport implements SyncGatewayTransport {
 await testCatchUpAppliesEventsAndAcks();
 await testTooLongRecoversFromSnapshot();
 await testSubscribeAppliesLiveEventsAndStops();
+await testModifySubscriptionForwardsTargets();

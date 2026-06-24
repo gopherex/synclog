@@ -22,6 +22,7 @@ const (
 	SyncGatewayService_Open_FullMethodName                     = "/synclog.v1.SyncGatewayService/Open"
 	SyncGatewayService_GatewayCatchUp_FullMethodName           = "/synclog.v1.SyncGatewayService/GatewayCatchUp"
 	SyncGatewayService_GatewaySubscribe_FullMethodName         = "/synclog.v1.SyncGatewayService/GatewaySubscribe"
+	SyncGatewayService_ModifySubscription_FullMethodName       = "/synclog.v1.SyncGatewayService/ModifySubscription"
 	SyncGatewayService_GatewayAck_FullMethodName               = "/synclog.v1.SyncGatewayService/GatewayAck"
 	SyncGatewayService_GatewayGetLatestSnapshot_FullMethodName = "/synclog.v1.SyncGatewayService/GatewayGetLatestSnapshot"
 )
@@ -40,6 +41,11 @@ type SyncGatewayServiceClient interface {
 	GatewayCatchUp(ctx context.Context, in *GatewayCatchUpRequest, opts ...grpc.CallOption) (*GatewayCatchUpResponse, error)
 	// Subscribe live-tails multiple targets over one stream.
 	GatewaySubscribe(ctx context.Context, in *GatewaySubscribeRequest, opts ...grpc.CallOption) (grpc.ServerStreamingClient[GatewaySubscribeResponse], error)
+	// ModifySubscription adds/removes targets on a live subscribe stream without
+	// tearing it down. Added targets get their per-target catch-up then live-tail
+	// injected into the existing stream; removed targets stop flowing. Addressed
+	// by `subscription_id` (set on the GatewaySubscribeRequest that opened it).
+	ModifySubscription(ctx context.Context, in *ModifySubscriptionRequest, opts ...grpc.CallOption) (*ModifySubscriptionResponse, error)
 	// Ack advances the subscriber cursor for one target after contiguous apply.
 	GatewayAck(ctx context.Context, in *GatewayAckRequest, opts ...grpc.CallOption) (*GatewayAckResponse, error)
 	// GetLatestSnapshot returns the newest compatible snapshot for one target.
@@ -93,6 +99,16 @@ func (c *syncGatewayServiceClient) GatewaySubscribe(ctx context.Context, in *Gat
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type SyncGatewayService_GatewaySubscribeClient = grpc.ServerStreamingClient[GatewaySubscribeResponse]
 
+func (c *syncGatewayServiceClient) ModifySubscription(ctx context.Context, in *ModifySubscriptionRequest, opts ...grpc.CallOption) (*ModifySubscriptionResponse, error) {
+	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
+	out := new(ModifySubscriptionResponse)
+	err := c.cc.Invoke(ctx, SyncGatewayService_ModifySubscription_FullMethodName, in, out, cOpts...)
+	if err != nil {
+		return nil, err
+	}
+	return out, nil
+}
+
 func (c *syncGatewayServiceClient) GatewayAck(ctx context.Context, in *GatewayAckRequest, opts ...grpc.CallOption) (*GatewayAckResponse, error) {
 	cOpts := append([]grpc.CallOption{grpc.StaticMethod()}, opts...)
 	out := new(GatewayAckResponse)
@@ -127,6 +143,11 @@ type SyncGatewayServiceServer interface {
 	GatewayCatchUp(context.Context, *GatewayCatchUpRequest) (*GatewayCatchUpResponse, error)
 	// Subscribe live-tails multiple targets over one stream.
 	GatewaySubscribe(*GatewaySubscribeRequest, grpc.ServerStreamingServer[GatewaySubscribeResponse]) error
+	// ModifySubscription adds/removes targets on a live subscribe stream without
+	// tearing it down. Added targets get their per-target catch-up then live-tail
+	// injected into the existing stream; removed targets stop flowing. Addressed
+	// by `subscription_id` (set on the GatewaySubscribeRequest that opened it).
+	ModifySubscription(context.Context, *ModifySubscriptionRequest) (*ModifySubscriptionResponse, error)
 	// Ack advances the subscriber cursor for one target after contiguous apply.
 	GatewayAck(context.Context, *GatewayAckRequest) (*GatewayAckResponse, error)
 	// GetLatestSnapshot returns the newest compatible snapshot for one target.
@@ -149,6 +170,9 @@ func (UnimplementedSyncGatewayServiceServer) GatewayCatchUp(context.Context, *Ga
 }
 func (UnimplementedSyncGatewayServiceServer) GatewaySubscribe(*GatewaySubscribeRequest, grpc.ServerStreamingServer[GatewaySubscribeResponse]) error {
 	return status.Error(codes.Unimplemented, "method GatewaySubscribe not implemented")
+}
+func (UnimplementedSyncGatewayServiceServer) ModifySubscription(context.Context, *ModifySubscriptionRequest) (*ModifySubscriptionResponse, error) {
+	return nil, status.Error(codes.Unimplemented, "method ModifySubscription not implemented")
 }
 func (UnimplementedSyncGatewayServiceServer) GatewayAck(context.Context, *GatewayAckRequest) (*GatewayAckResponse, error) {
 	return nil, status.Error(codes.Unimplemented, "method GatewayAck not implemented")
@@ -224,6 +248,24 @@ func _SyncGatewayService_GatewaySubscribe_Handler(srv interface{}, stream grpc.S
 // This type alias is provided for backwards compatibility with existing code that references the prior non-generic stream type by name.
 type SyncGatewayService_GatewaySubscribeServer = grpc.ServerStreamingServer[GatewaySubscribeResponse]
 
+func _SyncGatewayService_ModifySubscription_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
+	in := new(ModifySubscriptionRequest)
+	if err := dec(in); err != nil {
+		return nil, err
+	}
+	if interceptor == nil {
+		return srv.(SyncGatewayServiceServer).ModifySubscription(ctx, in)
+	}
+	info := &grpc.UnaryServerInfo{
+		Server:     srv,
+		FullMethod: SyncGatewayService_ModifySubscription_FullMethodName,
+	}
+	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
+		return srv.(SyncGatewayServiceServer).ModifySubscription(ctx, req.(*ModifySubscriptionRequest))
+	}
+	return interceptor(ctx, in, info, handler)
+}
+
 func _SyncGatewayService_GatewayAck_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
 	in := new(GatewayAckRequest)
 	if err := dec(in); err != nil {
@@ -274,6 +316,10 @@ var SyncGatewayService_ServiceDesc = grpc.ServiceDesc{
 		{
 			MethodName: "GatewayCatchUp",
 			Handler:    _SyncGatewayService_GatewayCatchUp_Handler,
+		},
+		{
+			MethodName: "ModifySubscription",
+			Handler:    _SyncGatewayService_ModifySubscription_Handler,
 		},
 		{
 			MethodName: "GatewayAck",
